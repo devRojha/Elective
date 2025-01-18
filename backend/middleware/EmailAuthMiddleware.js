@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const { User } = require("../db");
 
 require('dotenv').config();
 
@@ -18,13 +19,15 @@ const EmailAuthMiddleware = async (req, res, next)=>{
         return;
     }
     try {
-        const userFound = await User.findOne({ _id: decoded.userId });
+        const _id = decoded.userId;
+        const userFound = await User.findOne({ _id  }).select("-Password");
         if (!userFound) {
-            return res.status(404).json({ msg: "User not found" });
+            res.status(404).json({ msg: "User not found" });
+            return;
         }
         // Attach user information to request for further use in other routes if needed
-        req.authorID = userFound._id;
-        req.Txt = userFound.txt;
+        req.authorEmail = userFound.Email;
+        req.txt = decoded.txt;
         next(); // Pass control to the next middleware or route handler
     } catch (e) {
         console.log("Error while getting user details: " + e);

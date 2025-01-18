@@ -22,10 +22,10 @@ const signinType = z.object({
 })
 const router = express();
 
-router.get("/info", async (req , res)=>{
+router.get("/info", authMiddleware,async (req , res)=>{
     const authorID = req.authorID
     try{
-        const user = await User.findOne({_id , authorID}).select("-Password");
+        const user = await User.findOne({_id : authorID}).select("-Password");
         if(user){
             res.status(200).json({user});
         }
@@ -75,7 +75,7 @@ router.post("/signup" , async (req , res)=>{
             });
             const payload = {userId : newUser._id , txt : Password};
             const Token = jwt.sign(payload , secretKey);
-            res.status(400).json({Token});
+            res.status(200).json({Token});
         }
     }
     catch (e) {
@@ -101,7 +101,7 @@ router.post("/signin" , async (req , res)=>{
         if(passwordMatch){
             const payload = {userId : userFind._id , txt : Password};
             const Token = jwt.sign(payload , secretKey);
-            res.status(400).json({Token});
+            res.status(200).json({Token});
         }
         else{
             res.status(409).json({"msg" : "Wrong Credential"});
@@ -113,15 +113,15 @@ router.post("/signin" , async (req , res)=>{
     }
 })
 
-router.put("/" , authMiddleware , async (req , res)=>{
-    const {Name, Email, Password, Course} = req.body();
+router.put("/update" , authMiddleware , async (req , res)=>{
+    const {Name, Email, Password, Course} = req.body;
     const authorID = req.authorID;
     try{
         const user = await User.findOne({_id : authorID});
         if(Name != null){
             user.Name = Name;
         }
-        if(Email != null && Email.includes("@nitp.ac.in")){
+        if(Email != null ){
             user.Email = Email;
         }
         if(Password != null){
@@ -131,10 +131,11 @@ router.put("/" , authMiddleware , async (req , res)=>{
         if(Course != null){
             user.Course = Course;
         }
-        const updatedUser = User.findByIdAndUpdate({_id : authorID}, {user});
+        console.log(user);
+        const updatedUser = await User.findByIdAndUpdate({_id : authorID}, user);
         const payload = {userId : authorID , txt : Password};
         const Token = jwt.sign(payload , secretKey);
-        res.status(400).json({Token});
+        res.status(200).json({Token});
     }
     catch (e) {
         console.error("update failed with error:", e);
