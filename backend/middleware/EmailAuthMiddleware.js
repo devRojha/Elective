@@ -27,7 +27,7 @@ const EmailAuthMiddleware = async (req, res, next)=>{
         }
         // Attach user information to request for further use in other routes if needed
         req.authorEmail = userFound.Email;
-        req.txt = decoded.txt;
+        req.txt = userFound.AppPassword;
         next(); // Pass control to the next middleware or route handler
     } catch (e) {
         console.log("Error while getting user details: " + e);

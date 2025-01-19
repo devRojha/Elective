@@ -14,6 +14,10 @@ const userSchema = new mongoose.Schema({
         type : String,
         required : true
     },
+    AppPassword : {
+        type : String,
+        default : ""
+    },
     Admin : {
         type : Number,
         default : 0
