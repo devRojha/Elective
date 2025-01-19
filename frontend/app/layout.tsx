@@ -4,7 +4,7 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Elective",
-  description: "A platform where electrical student find there",
+  description: "A platform where electrical students can find resources for their respective elective programs.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
