@@ -15,13 +15,19 @@ export default function Signup(){
     const [Course , setCourse] = useState<string | undefined>("");
     const setLoginAtom = useRecoilState(logedinState)[1];
     const router = useRouter();
+
     const Registerfun = async ()=>{
         if(!Email || !Password || !Name || !Course){
             alert("Fill Credential")
         }
         else{
+            let admin = 0;
+            if(Admin){
+                admin = 1;
+            }
             const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/signup`,{
                 Name,
+                Admin : admin,
                 Email, 
                 Password,
                 AppPassword,
