@@ -29,3 +29,8 @@ export const  userCourse = atom<string>({
     key: 'userCourse', // unique ID (with respect to other atoms/selectors)
     default: ""
 });
+
+export const  appMenu = atom<boolean>({
+    key: 'appMenu', // unique ID (with respect to other atoms/selectors)
+    default: false
+});

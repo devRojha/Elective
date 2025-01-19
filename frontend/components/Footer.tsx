@@ -1,8 +1,26 @@
 
 "use client"
 
+import axios from "axios";
+import { useEffect, useState } from "react"
+
 
 export default function Footer(){
+    const [user, setUser] = useState<string>("0");
+    useEffect(()=>{
+        const fetchData = async()=>{
+            try{
+                const response = await axios.get("http://localhost:4000/api/users/num");
+                if(response.data){
+                    setUser(response.data.num);
+                }
+            }
+            catch(e){
+                console.log(e);
+            }
+        }
+        fetchData();
+    },[])
     return (
         <div className="">
             <div className="px-20 max-lg:px-12 max-md:px-6 pt-4 text-zinc-600 bg-zinc-300">
@@ -35,7 +53,7 @@ export default function Footer(){
                 </div>
 
                 <div className="w-full h-full flex justify-end font-mono text-sm font-bold mt-6">
-                    <div className="h-full flex flex-col justify-end max-lg:text-[12px] max-sm:text-[10px]">Total Active Users : 53</div>
+                    <div className="h-full flex flex-col justify-end max-lg:text-[12px] max-sm:text-[10px]">Total Active Users : {user}</div>
                 </div>
             </div>
             <div className="bg-green-800 w-full text-center text-white text-sm">@ All right reserved</div>
