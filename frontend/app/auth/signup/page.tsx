@@ -20,7 +20,7 @@ export default function Signup(){
             alert("Fill Credential")
         }
         else{
-            const response = await axios.post("http://localhost:4000/api/users/signup",{
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/signup`,{
                 Name,
                 Email, 
                 Password,

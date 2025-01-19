@@ -10,7 +10,7 @@ export default function Footer(){
     useEffect(()=>{
         const fetchData = async()=>{
             try{
-                const response = await axios.get("http://localhost:4000/api/users/num");
+                const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/num`);
                 if(response.data){
                     setUser(response.data.num);
                 }
@@ -29,25 +29,25 @@ export default function Footer(){
                     {/* Layer 1 */}
                     <div className="text-sm  mt-4">
                         <div className="font-bold mb-1">Machine Learning</div>
-                        <div>Dr. Gosh</div>
-                        <div>Email: <a className="underline" href="mailto:iscesti2025@nitp.ac.in">devrajk.ug22.ee@nitp.ac.in</a></div>
+                        <div>Dr. Arunangshu Ghosh</div>
+                        <div>Email: <a className="underline" href="mailto:arunangshu.ghosh@nitp.ac.in">arunangshu.ghosh@nitp.ac.in</a></div>
                     </div>
                     <div className="text-sm  mt-4">
                         <div className="font-bold mb-1">Robotics</div>
                         <div>Dr. Gagandeep Meena</div>
-                        <div>Email: <a className="underline" href="mailto:iscesti2025@nitp.ac.in">devrajk.ug22.ee@nitp.ac.in</a></div>
+                        <div>Email: <a className="underline" href="mailto:gagandeep.ee@nitp.ac.in">gagandeep.ee@nitp.ac.in</a></div>
                     </div>
                     <div className="text-sm  mt-4">
                         <div className="font-bold mb-1">Modern Control Theory</div>
-                        <div>Dr. Ruchi</div>
-                        <div>Email: <a className="underline" href="mailto:iscesti2025@nitp.ac.in">devrajk.ug22.ee@nitp.ac.in</a></div>
+                        <div>Dr. Ruchi Agarwal</div>
+                        <div>Email: <a className="underline" href="mailto:ruchi.agarwal@nitp.ac.in">ruchi.agarwal@nitp.ac.in</a></div>
                     </div>
 
                     {/* Layer 2*/}
                     <div className="text-sm  mt-6">
                         <div className="font-bold mb-1">Designed and Maintained by </div>
                         <div>Devraj Kumar</div>
-                        <div>Email: <a className="underline" href="mailto:iscesti2025@nitp.ac.in">devrajk.ug22.ee@nitp.ac.in</a></div>
+                        <div>Email: <a className="underline" href="mailto:devrajk.ug22.ee@nitp.ac.in">devrajk.ug22.ee@nitp.ac.in</a></div>
                         <div>College Website: <a className="underline" href="">www.nitp.ac.in</a></div>
                     </div>
                 </div>

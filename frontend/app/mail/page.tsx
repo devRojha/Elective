@@ -21,7 +21,7 @@ export default function Mail() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get("http://localhost:4000/api/users/all",{
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/all`,{
         headers : {
             token : localStorage.getItem("Token")
         }
@@ -50,7 +50,7 @@ export default function Mail() {
         alert("Please select recipients and enter a message");
         return;
       }
-      const response = await axios.post("http://localhost:4000/api/email",{
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/email`,{
           message: msg,
           recivers: recipients
         },{

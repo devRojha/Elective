@@ -17,7 +17,7 @@ export default function MCT() {
     const AdminState = useRecoilValue(adminState);
     useEffect(()=>{
         const fetchData = async()=>{
-            const response = await axios.post("http://localhost:4000/api/data/all",{
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/data/all`,{
                 Courses : "MCT"
             })
             if(response.data){
@@ -62,6 +62,7 @@ function UploaderCompo({ setuploader }: UploaderCompoProps) {
     // const [file, setFile] = useState<File | null>(null);
     const [file, setFile] = useState<string>("");
     const AdminState = useRecoilValue(adminState);
+
     // const submit = async (event: React.FormEvent<HTMLFormElement>) => {
     //   event.preventDefault();
   
@@ -79,7 +80,7 @@ function UploaderCompo({ setuploader }: UploaderCompoProps) {
     //     formData.append("Text", res);
   
     //     const response = await axios.post(
-    //       "http://localhost:4000/api/data/upload",
+    //       `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/data/upload`,
     //       formData,
     //       {
     //         headers: {
@@ -106,7 +107,7 @@ function UploaderCompo({ setuploader }: UploaderCompoProps) {
                 alert("You are not an admin")
                 return;
             }
-            const response = await axios.post("http://localhost:4000/api/data/upload",{
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/data/upload`,{
                 file,
                 Title : title,
                 Text : res,

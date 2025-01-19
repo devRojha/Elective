@@ -17,7 +17,7 @@ export default function Robotics() {
     const AdminState = useRecoilValue(adminState);
     useEffect(()=>{
         const fetchData = async()=>{
-            const response = await axios.post("http://localhost:4000/api/data/all",{
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/data/all`,{
                 Courses : "Robotics"
             })
             if(response.data){
@@ -79,7 +79,7 @@ function UploaderCompo({ setuploader }: UploaderCompoProps) {
     //     formData.append("Text", res);
   
     //     const response = await axios.post(
-    //       "http://localhost:4000/api/data/upload",
+    //       `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/data/upload`,
     //       formData,
     //       {
     //         headers: {
@@ -106,7 +106,7 @@ function UploaderCompo({ setuploader }: UploaderCompoProps) {
                 alert("You are not an admin")
                 return;
             }
-            const response = await axios.post("http://localhost:4000/api/data/upload",{
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/data/upload`,{
                 file,
                 Title : title,
                 Text : res,

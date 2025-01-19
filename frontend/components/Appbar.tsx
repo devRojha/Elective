@@ -22,7 +22,7 @@ export default function Appbar() {
             const token = localStorage.getItem("Token");
             if(token){
                 try{
-                    const response = await axios.get("http://localhost:4000/api/users/info",{
+                    const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/info`,{
                         headers : {
                             token : localStorage.getItem("Token")
                         }
