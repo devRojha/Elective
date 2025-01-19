@@ -24,7 +24,7 @@ export default function AppMenu(){
             <div className="text-black flex w-full justify-end mb-12"><button onClick={()=>setAppMenu(false)}>X</button></div>
             <div className="flex flex-col space-y-4 justify-start">
                 <div><button onClick={()=> router.push("/mail")} className=" text-slate-600 hover:text-blue-700 hover:underline">Send Notification</button></div>
-                <div><button onClick={()=> router.push("")} className=" text-slate-600 hover:text-blue-700 hover:underline">Admin Request</button></div>
+                <div><button onClick={()=>router.push("/adminRequest")} className=" text-slate-600 hover:text-blue-700 hover:underline">Admin Request</button></div>
                 <div><button onClick={()=>{
                         setLoginAtom(false);
                         setAdminAtom(false);
@@ -32,7 +32,7 @@ export default function AppMenu(){
                         router.push("/")
                         localStorage.removeItem("Token")
                     }} className=" text-slate-600 hover:text-blue-700 hover:underline">Logout</button></div>
-                <div><button onClick={()=> router.push("/profile")} className=" text-slate-600 hover:text-blue-700 hover:underline">{username}</button></div>
+                <div><button onClick={()=> router.push("/profile")} className=" text-slate-600 hover:text-blue-700 hover:underline">{username.split(" ")[0]}</button></div>
             </div>
         </div>
     )

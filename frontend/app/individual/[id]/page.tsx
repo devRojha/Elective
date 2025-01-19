@@ -69,7 +69,7 @@ export default function Page() {
     }
     return (
         <div className=" bg-white text-black">
-            <div className={`${(uploader)?"fixed":"hidden"} h-screen w-full  flex justify-center border-green-400`}>
+            <div className={`${(uploader)?"fixed":"hidden"} h-screen w-full  flex justify-center border-green-400 z-10`}>
                 <UploaderCompo setuploader={setuploader}/>
             </div>
           <div className="text-center text-2xl font-bold font-serif mb-20 flex justify-center">

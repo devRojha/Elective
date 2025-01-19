@@ -36,7 +36,7 @@ export default function ML() {
             <div>Machine Learning</div>
             <button onClick={()=> setuploader(true)} className={`${(AdminState)? "": "hidden"} absolute right-10 max-sm:right-2 z-0`}>+</button>
           </div>
-          <div className="flex justify-center mb-10">
+          <div className="flex justify-center mb-10 z-10">
               <div className="flex flex-col justify-center space-y-4">
               {lists.map((list : ListItem) => (
                     <Individual
