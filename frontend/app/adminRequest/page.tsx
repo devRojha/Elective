@@ -19,7 +19,7 @@ export default function Page() {
     const fetchData = async ()=>{
         if(localStorage.getItem("Token")){
             try{
-                const response = await axios.get("http://localhost:4000/api/request/all",{
+                const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/request/all`,{
                     headers : {
                         token : localStorage.getItem("Token")
                     }
@@ -62,7 +62,7 @@ interface CompoType{
 
 function Compo({Name , Email , id, render , setRender}:CompoType){
     const accept  = async()=>{
-        const response = await axios.put("http://localhost:4000/api/request/access",{
+        const response = await axios.put(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/request/access`,{
             id : id
         },{
             headers : {
@@ -75,7 +75,7 @@ function Compo({Name , Email , id, render , setRender}:CompoType){
         }
     }
     const reject  = async()=>{
-        const response = await axios.put("http://localhost:4000/api/request/remove",{
+        const response = await axios.put(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/request/remove`,{
             id : id
         },{
             headers : {

@@ -26,7 +26,7 @@ export default function Profile(){
     },[render])
 
     const updateProfile = async ()=>{
-        const response = await axios.put("http://localhost:4000/api/users/update",{
+        const response = await axios.put(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/update`,{
             Name,
             Email, 
             Password,
@@ -44,7 +44,7 @@ export default function Profile(){
     }
 
     const DeleteProfile = async ()=>{
-        const response = await axios.delete("http://localhost:4000/api/users/delete",{
+        const response = await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/delete`,{
             headers : {
                 token : localStorage.getItem("Token")
             }

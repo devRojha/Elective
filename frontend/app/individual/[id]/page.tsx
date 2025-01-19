@@ -23,7 +23,7 @@ export default function Page() {
 
     useEffect(()=>{
         const fetchData = async()=>{
-            const response = await axios.get("http://localhost:4000/api/data/info",{
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/data/info`,{
                 headers : {
                     id
                 }
@@ -47,7 +47,7 @@ export default function Page() {
                 alert("Authentication Required");
                 return;
             }
-            const response = await axios.delete("http://localhost:4000/api/data/delete",{
+            const response = await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/data/delete`,{
                 headers : {
                     token : localStorage.getItem("Token")
                 },
@@ -128,7 +128,7 @@ function UploaderCompo({ setuploader }: UploaderCompoProps) {
       //     formData.append("Text", res);
     
       //     const response = await axios.post(
-      //       "http://localhost:4000/api/data/upload",
+      //       `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/data/upload`,
       //       formData,
       //       {
       //         headers: {
@@ -150,7 +150,7 @@ function UploaderCompo({ setuploader }: UploaderCompoProps) {
             return;
         }
         try{
-            const response = await axios.put("http://localhost:4000/api/data/updateTitle",
+            const response = await axios.put(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/data/updateTitle`,
                 {   
                     Title : title,
                     id,
@@ -176,7 +176,7 @@ function UploaderCompo({ setuploader }: UploaderCompoProps) {
             return;
         }
         try{
-            const response = await axios.put("http://localhost:4000/api/data/updateText",
+            const response = await axios.put(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/data/updateText`,
                 {   
                     Text : res,
                     id,
@@ -202,7 +202,7 @@ function UploaderCompo({ setuploader }: UploaderCompoProps) {
             return;
         }
         try{
-            const response = await axios.put("http://localhost:4000/api/data/updatePDF",
+            const response = await axios.put(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/data/updatePDF`,
                 {   
                     file,
                     id,
