@@ -1,12 +1,14 @@
 "use client"
 
-import { logedinState } from "@/state/atom";
+import { logedinState, userCourse, userEmail, userName } from "@/state/atom";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 
-export default function Signup(){
+
+export default function Profile(){
+    const [render , setRender] = useState<boolean>(false);
     const [Admin , setAdmin] = useState<boolean>(false);
     const [Name , setName] = useState<string>("");
     const [Email, setEmail] = useState<string>("");
@@ -14,24 +16,43 @@ export default function Signup(){
     const [AppPassword, setAppPassword] = useState<string>("");
     const [Course , setCourse] = useState<string | undefined>("");
     const setLoginAtom = useRecoilState(logedinState)[1];
+    const username = useRecoilValue(userName);
+    const useremail = useRecoilValue(userEmail);
+    const usercourse = useRecoilValue(userCourse);
     const router = useRouter();
-    const Registerfun = async ()=>{
-        if(!Email || !Password || !Name || !Course){
-            alert("Fill Credential")
-        }
-        else{
-            const response = await axios.post("http://localhost:4000/api/users/signup",{
-                Name,
-                Email, 
-                Password,
-                AppPassword,
-                Course,
-            })
-            if(response.data){
-                localStorage.setItem("Token" , response.data.Token);
-                setLoginAtom(true);
-                router.push("/")
+
+    useEffect(()=>{
+        
+    },[render])
+
+    const updateProfile = async ()=>{
+        const response = await axios.put("http://localhost:4000/api/users/update",{
+            Name,
+            Email, 
+            Password,
+            AppPassword,
+            Course,
+        },{
+            headers : {
+                token : localStorage.getItem("Token")
             }
+        })
+        if(response.data){
+            localStorage.setItem("Token" , response.data.Token);
+            setRender(!render);
+        }
+    }
+
+    const DeleteProfile = async ()=>{
+        const response = await axios.delete("http://localhost:4000/api/users/delete",{
+            headers : {
+                token : localStorage.getItem("Token")
+            }
+        })
+        if(response.data){
+            setLoginAtom(false);
+            localStorage.removeItem("Token");
+            router.push("/")
         }
     }
 
@@ -40,11 +61,17 @@ export default function Signup(){
             <div className="h-full flex flex-col justify-center">
                 <div className="flex justify-center">
                     <div className="flex flex-col border border-black rounded-lg px-10 py-10 mb-4">
-                        <div className=" text-center text-2xl font-bold font-serif">Signup</div>
-                        <label className="my-2">Name</label>
+                        <div className=" text-center text-2xl font-bold font-serif">Profile</div>
+                        <div className="flex space-x-2 text-slate-500 my-2">
+                            <label className="">Name :</label>
+                            <div>{username}</div>
+                        </div>
                         <input onChange={(e)=>{setName(e.target.value)}} className="mb-8 border border-black rounded-md py-2 px-2  w-[300px]"/>
 
-                        <label className="my-2">Email</label>
+                        <div className="flex space-x-2 text-slate-500 my-2">
+                            <label className="">Email :</label>
+                            <div>{useremail}</div>
+                        </div>
                         <input onChange={(e)=>{setEmail(e.target.value)}} className="mb-8 border border-black rounded-md py-2 px-2  w-[300px]"/>
                         
                         <div className={`flex flex-col`}>
@@ -53,7 +80,10 @@ export default function Signup(){
                         </div>
                         
                         <div className="flex">
-                            <label>Course</label>
+                            <div className="flex flex-col text-slate-500 my-2">
+                                <label className="">Courses :</label>
+                                <div>{usercourse}</div>
+                            </div>
                             <select onChange={(e) => setCourse(e.target.value)} className="ml-2 border rounded-lg border-black">
                                 <option value="">--Select--</option>
                                 <option value="Machine Learning">Machine Learning</option>
@@ -71,10 +101,11 @@ export default function Signup(){
                             <input onChange={(e)=>{setAppPassword(e.target.value)}} className="border border-black rounded-md py-2 px-2  w-[300px]"/>
                         </div>
                         <div className="mt-8 flex justify-center">
-                            <button onClick={()=> Registerfun()} className={`${(Admin)?"hidden":""} border px-4 py-2 rounded-lg border-blue-500 hover:text-blue-900 hover:border-black active:text-white`}>Register</button>
-                            <button onClick={()=> Registerfun()} className={`${(Admin)?"":"hidden"} border px-4 py-2 rounded-lg border-blue-500 hover:text-blue-900 hover:border-black active:text-white`}>Request for Admin</button>
+                            <button onClick={()=> updateProfile()} className={` border px-4 py-2 rounded-lg border-blue-500 hover:text-blue-900 hover:border-black active:text-white`}>Update</button>
+                            <button onClick={()=> DeleteProfile()} className={` border px-4 py-2 rounded-lg active:text-black hover:border-black bg-red-700 text-white ml-4`}>Delete Account</button>
                         </div>
                     </div>
+                    
                 </div>
             </div>  
         </div>

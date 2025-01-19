@@ -1,6 +1,6 @@
 "use client"
 
-import { adminState, logedinState, userCourse, userEmail, userID, userName } from "@/state/atom";
+import { adminState, appMenu, logedinState, userCourse, userEmail, userID, userName } from "@/state/atom";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -16,6 +16,7 @@ export default function Appbar() {
     const [Name, setName] = useRecoilState(userName);
     const setEmail = useRecoilState(userEmail)[1];
     const setCourse = useRecoilState(userCourse)[1];
+    const [appmenu , setAppmenu] = useRecoilState(appMenu);
     useEffect(()=>{
         async function fetchData(){
             const token = localStorage.getItem("Token");
@@ -70,23 +71,28 @@ export default function Appbar() {
                         setAdminAtom(false);
                         localStorage.removeItem("Token")
                     }} className="mr-2 hover:underline" >Logout</button> /
-                    <a className="ml-2 hover:underline"  href="/auth/profile">{Name.split(" ")[0]}</a>
+                    <a className="ml-2 hover:underline"  href="/profile">{Name.split(" ")[0]}</a>
                 </div>
-
                 {/* only admin  */}
                 <div className={`${(loginAtom && adminAtom)?"flex" : "hidden"}`}>
-                    <button onClick={()=>router.push("/mail")} className="mr-2 hover:underline" >Send Notification</button> /
-                    <button className="mr-2 ml-2 hover:underline" >Admin Request</button> /
-                    <button onClick={()=>{
-                        setLoginAtom(false);
-                        setAdminAtom(false);
-                        localStorage.removeItem("Token")
-                    }} className="mr-2 ml-2 hover:underline" >Logout</button> /
-                    <a className="ml-2 hover:underline"  href="/auth/profile">{Name.split(" ")[0]}</a>
+                    <button onClick={()=>setAppmenu(!appmenu)} className=" max-sm:flex hidden">
+                        <div className="relative w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+                            <svg className="absolute w-12 h-12 text-gray-300 -left-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd"></path></svg>
+                        </div>
+                    </button>
+                    <div className="max-sm:hidden flex">
+                        <button onClick={()=>router.push("/mail")} className="mr-2 hover:underline" >Send Notification</button> /
+                        <button className="mr-2 ml-2 hover:underline" >Admin Request</button> /
+                        <button onClick={()=>{
+                            setLoginAtom(false);
+                            setAdminAtom(false);
+                            localStorage.removeItem("Token")
+                        }} className="mr-2 ml-2 hover:underline" >Logout</button> /
+                        <a className="ml-2 hover:underline"  href="/profile">{Name.split(" ")[0]}</a>
+                    </div>
                 </div>
             </div>
         </div>
       </div>
     );
   }
-  

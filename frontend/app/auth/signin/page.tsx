@@ -11,6 +11,8 @@ export default function Signin(){
     const router = useRouter();
     const [Email, setEmail] = useState<string>("");
     const [Password, setPassword] = useState<string>("");
+    const [AppPassword, setAppPassword] = useState<string>("");
+    const [Admin , setAdmin] = useState<boolean>(false);
     const setLoginAtom = useRecoilState(logedinState)[1];
     const loginfun = async ()=>{
         if(!Email || !Password){
@@ -19,7 +21,8 @@ export default function Signin(){
         else{
             const response = await axios.post("http://localhost:4000/api/users/signin",{
                 Email, 
-                Password
+                Password,
+                AppPassword
             })
             if(response.data){
                 localStorage.setItem("Token" , response.data.Token);
@@ -38,10 +41,18 @@ export default function Signin(){
                         <label className="my-2">Email</label>
                         <input onChange={(e)=>{setEmail(e.target.value)}} className="mb-8 border border-black rounded-md py-2 px-2  w-[300px]"/>
 
-                        <label className="my-2">App Password</label>
+                        <label className="my-2">Password</label>
                         <input onChange={(e)=>{setPassword(e.target.value)}} className="border border-black rounded-md py-2 px-2  w-[300px]"/>
-                        
-                        <div className="mt-10 flex justify-center">
+                        <div className={`mt-4`}>
+                            <label className="mr-2">For Admin</label>
+                            <input onChange={(e)=>setAdmin(e.target.checked)} type="checkbox" />
+                        </div>
+                        <div className={`${(Admin)?" flex ":" hidden "}  flex-col`}>
+                            <label className="my-2">App Password</label>
+                            <div className="text-[10px] mb-2 underline text-blue-900" >This will update your App Password</div>
+                            <input onChange={(e)=>{setAppPassword(e.target.value)}} className="border border-black rounded-md py-2 px-2  w-[300px]"/>
+                        </div>
+                        <div className="mt-8 flex justify-center">
                             <button onClick={()=> loginfun()} className="border px-4 py-2 rounded-lg border-blue-500 hover:text-blue-900 hover:border-black active:text-white">Login</button>
                         </div>
                     </div>
