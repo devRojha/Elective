@@ -3,7 +3,7 @@ const {z} = require("zod");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const authMiddleware = require("../middleware/authMiddleware");
-const { User } = require("../db");
+const { User, AdminRequest, Admin } = require("../db");
 
 require('dotenv').config();
 
@@ -22,10 +22,26 @@ const signinType = z.object({
 })
 const router = express();
 
+router.get("/num", async (req , res)=>{
+    try{
+        const user = await User.find().select("_id");
+        if(user){
+            res.status(200).json({"num" : user.length});
+        }
+        else{
+            res.status(404).json({"num" : 0})
+        }
+    }
+    catch(e){
+        console.error("Data showing failed with error: ", e);
+        res.status(500).json({ "msg": "Internal Server down" });
+    }
+})
+
 router.get("/info", authMiddleware,async (req , res)=>{
     const authorID = req.authorID
     try{
-        const user = await User.findOne({_id : authorID}).select("-Password");
+        const user = await User.findOne({_id : authorID}).select("-Password -AppPassword");
         if(user){
             res.status(200).json({user});
         }
@@ -39,9 +55,11 @@ router.get("/info", authMiddleware,async (req , res)=>{
     }
 })
 
-router.get("/all" , async (req , res)=>{
+router.get("/all" , authMiddleware, async (req , res)=>{
+    const authorID = req.authorID;
     try{
-        const users = await User.find().select("-Password");
+        const user = await User.findOne({_id : authorID});
+        const users = await User.find({Course : user.Course}).select("-Password -AppPassword");
         if(users){
             res.status(200).json({users});
         }
@@ -56,7 +74,7 @@ router.get("/all" , async (req , res)=>{
 })
 
 router.post("/signup" , async (req , res)=>{
-    const {Name, Email, Password, Admin, Course} = req.body;
+    const {Name, Email, Password, AppPassword, Admin, Course} = req.body;
     const zodPass = signupType.safeParse({Name, Email,Password, Course});
     if(!zodPass.success || !(Email.includes("@nitp.ac.in"))){
         res.status(409).json({"msg" : "Wrong Credential"})
@@ -70,12 +88,24 @@ router.post("/signup" , async (req , res)=>{
                 Name,
                 Email,
                 Password : hasPassword,
-                Admin,
+                AppPassword,
+                Admin : 0,
                 Course
             });
-            const payload = {userId : newUser._id , txt : Password};
+            if((Admin === 1) && (AppPassword.length > 0)){
+                const adminReq = await AdminRequest.create({
+                    authorId : newUser._id,
+                    Name,
+                    Email
+                })
+            }
+            const payload = {userId : newUser._id};
             const Token = jwt.sign(payload , secretKey);
             res.status(200).json({Token});
+
+        }
+        else{
+            res.status(409).json({"msg" : "user Allready Exist"})
         }
     }
     catch (e) {
@@ -85,7 +115,7 @@ router.post("/signup" , async (req , res)=>{
 })
 
 router.post("/signin" , async (req , res)=>{
-    const {Email, Password} = req.body;
+    const {Email, Password, AppPassword} = req.body;
     const zodPass = signinType.safeParse({Email, Password});
     if(!zodPass.success || !(Email.includes("@nitp.ac.in"))){
         res.status(409).json({"msg" : "Wrong Credential"})
@@ -99,7 +129,11 @@ router.post("/signin" , async (req , res)=>{
         }
         const passwordMatch = await bcrypt.compare(Password, userFind.Password);
         if(passwordMatch){
-            const payload = {userId : userFind._id , txt : Password};
+            if(AppPassword.length > 0){
+                const updateUser = await User.findOneAndUpdate({Email},{AppPassword});
+                console.log(updateUser);
+            }
+            const payload = {userId : userFind._id};
             const Token = jwt.sign(payload , secretKey);
             res.status(200).json({Token});
         }
@@ -114,32 +148,49 @@ router.post("/signin" , async (req , res)=>{
 })
 
 router.put("/update" , authMiddleware , async (req , res)=>{
-    const {Name, Email, Password, Course} = req.body;
+    const {Name, Email, Password, AppPassword, Course} = req.body;
     const authorID = req.authorID;
     try{
         const user = await User.findOne({_id : authorID});
-        if(Name != null){
+        if(Name.length > 0){
             user.Name = Name;
         }
-        if(Email != null ){
+        if((Email.length > 0) && Email.includes("@nitp.ac.in")){
             user.Email = Email;
         }
-        if(Password != null){
+        if(Password.length > 0){
             const hasPassword = await bcrypt.hash(Password , 10);
             user.Password = hasPassword;
         }
-        if(Course != null){
+        if(Course.length > 0){
             user.Course = Course;
+        }
+        if(AppPassword.length > 0){
+            user.AppPassword = AppPassword;
         }
         console.log(user);
         const updatedUser = await User.findByIdAndUpdate({_id : authorID}, user);
-        const payload = {userId : authorID , txt : Password};
+        const payload = {userId : authorID};
         const Token = jwt.sign(payload , secretKey);
         res.status(200).json({Token});
     }
     catch (e) {
         console.error("update failed with error:", e);
         res.status(500).json({ "msg": "update failed with error" });
+    }
+})
+
+router.delete("/delete", authMiddleware, async(req , res)=>{
+    const AuthorId = req.authorID;
+    try{
+        const deletUser = await User.findByIdAndDelete(AuthorId);
+        const deletRequest = await AdminRequest.findOneAndDelete({authorId : AuthorId});
+        const deletAdmin = await Admin.findOneAndDelete({authorId : AuthorId});
+        res.status(200).json({"msg": "user deleted"})
+    }
+    catch (e) {
+        console.error("user delete failed with error:", e);
+        res.status(500).json({ "msg": "user delete failed with error" });
     }
 })
 
