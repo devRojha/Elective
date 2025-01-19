@@ -28,7 +28,7 @@ export default function Robotics() {
     },[uploader])
     return (
       <div className="text-black h-screen overflow-auto">
-            <div className={`${(uploader)?"fixed":"hidden"} h-screen w-full  flex justify-center border-green-400`}>
+            <div className={`${(uploader)?"fixed":"hidden"} h-screen w-full  flex justify-center border-green-400 z-10`}>
                 <UploaderCompo setuploader={setuploader}/>
             </div>
           <div className="text-center text-2xl font-bold font-serif mb-20 flex justify-center">
@@ -36,7 +36,7 @@ export default function Robotics() {
             <div>Robotics</div>
             <button onClick={()=> setuploader(true)} className={`${(AdminState)? "": "hidden"} absolute right-10 max-sm:right-2`}>+</button>
           </div>
-          <div className="flex justify-center mb-10">
+          <div className="flex justify-center mb-10 z-10">
               <div className="flex flex-col justify-center space-y-4">
               {lists.map((list : ListItem) => (
                     <Individual

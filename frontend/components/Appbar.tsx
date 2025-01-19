@@ -82,7 +82,7 @@ export default function Appbar() {
                     </button>
                     <div className="max-sm:hidden flex">
                         <button onClick={()=>router.push("/mail")} className="mr-2 hover:underline" >Send Notification</button> /
-                        <button className="mr-2 ml-2 hover:underline" >Admin Request</button> /
+                        <button onClick={()=>router.push("/adminRequest")} className="mr-2 ml-2 hover:underline" >Admin Request</button> /
                         <button onClick={()=>{
                             setLoginAtom(false);
                             setAdminAtom(false);
