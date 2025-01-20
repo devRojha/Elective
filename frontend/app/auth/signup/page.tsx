@@ -12,7 +12,6 @@ export default function Signup(){
     const [Email, setEmail] = useState<string>("");
     const [Password, setPassword] = useState<string>("");
     const [AppPassword, setAppPassword] = useState<string>("");
-    const [otp, setotp] = useState<string>("");
     const [OTP, setOTP] = useState<string>("");
     const [OTPBox, setOTPBox] = useState<boolean>(false);
     const [Course , setCourse] = useState<string | undefined>("");
@@ -27,7 +26,6 @@ export default function Signup(){
         else{
             const rn = Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
             const otp1 = rn.toString();
-            setotp(otp1);
             try{
                 const sendMail = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/email/otp`,{
                     Email,
@@ -57,32 +55,26 @@ export default function Signup(){
         if(Admin){
             admin = 1;
         }
-        if(otp === OTP){
-            try{
-                const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/signup`,{
-                    Name,
-                    Admin : admin,
-                    Email, 
-                    Password,
-                    AppPassword,
-                    Course,
-                })
-                alert(response.data.msg);
-                if(response.data){
-                    localStorage.setItem("Token" , response.data.Token);
-                    setLoginAtom(true);
-                    router.push("/")
-                }
-            }
-            catch(e){
-                console.log(e);
-                alert("User allready Exist");
+        try{
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/signup`,{
+                Name,
+                Admin : admin,
+                Email, 
+                Password,
+                OTP,
+                AppPassword,
+                Course,
+            })
+            alert(response.data.msg);
+            if(response.data){
+                localStorage.setItem("Token" , response.data.Token);
+                setLoginAtom(true);
+                router.push("/")
             }
         }
-        else{
-            // failed with multiple user hit simultaneously
-            alert("OTP not matched");
-            // setOTPBox(false);
+        catch(e : any){
+            console.log(e);
+            alert(e.response.data.msg);
         }
     }
     return (

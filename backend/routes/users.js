@@ -3,7 +3,7 @@ const {z} = require("zod");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const authMiddleware = require("../middleware/authMiddleware");
-const { User, AdminRequest, Admin } = require("../db");
+const { User, AdminRequest, Admin, OTPS } = require("../db");
 
 require('dotenv').config();
 
@@ -74,7 +74,7 @@ router.get("/all" , authMiddleware, async (req , res)=>{
 })
 
 router.post("/signup" , async (req , res)=>{
-    const {Name, Email, Password, AppPassword, Admin, Course} = req.body;
+    const {Name, Email, Password, AppPassword, Admin, Course, OTP} = req.body;
     const zodPass = signupType.safeParse({Name, Email,Password, Course});
     if(!zodPass.success || !(Email.includes("@nitp.ac.in"))){
         res.status(409).json({"msg" : "Wrong Credential"})
@@ -83,26 +83,34 @@ router.post("/signup" , async (req , res)=>{
     try{
         const userFind = await User.findOne({Email});
         if(!userFind){
-            const hasPassword = await bcrypt.hash(Password , 10);
-            const newUser = await User.create({
-                Name,
-                Email,
-                Password : hasPassword,
-                AppPassword,
-                Admin : 0,
-                Course
-            });
-            if((Admin === 1) && (AppPassword.length > 0)){
-                const adminReq = await AdminRequest.create({
-                    authorId : newUser._id,
+            const OTPfind = await OTPS.findOne({Email , OTP});
+            // console.log(OTPfind)
+            if(OTPfind && (OTP == OTPfind.OTP) && OTP.length == 6){
+                const hasPassword = await bcrypt.hash(Password , 10);
+                const newUser = await User.create({
                     Name,
-                    Email
-                })
+                    Email,
+                    Password : hasPassword,
+                    AppPassword,
+                    Admin : 0,
+                    Course
+                });
+                if((Admin === 1) && (AppPassword.length > 0)){
+                    const adminReq = await AdminRequest.create({
+                        authorId : newUser._id,
+                        Name,
+                        Email
+                    })
+                }
+                const payload = {userId : newUser._id};
+                const Token = jwt.sign(payload , secretKey);
+                res.status(200).json({Token});
+                return
             }
-            const payload = {userId : newUser._id};
-            const Token = jwt.sign(payload , secretKey);
-            res.status(200).json({Token});
-
+            else{
+                res.status(404).json({"msg" : "OTP not Found"});
+                return
+            }
         }
         else{
             res.status(409).json({"msg" : "user Allready Exist"})

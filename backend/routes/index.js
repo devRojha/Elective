@@ -2,7 +2,7 @@ const express = require("express");
 const usersRouts = require("./users.js");
 const resources = require("./resources.js")
 const sendEmail = require("./email.js");
-const requestAdmin = require("./adminRequest.js")
+const requestAdmin = require("./adminRequest.js");
 
 const router = express();
 
