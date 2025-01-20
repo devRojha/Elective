@@ -36,6 +36,7 @@ export default function Profile(){
             }
         })
         if(response.data){
+            alert("User Data Updated")
             localStorage.setItem("Token" , response.data.Token);
             setRender(!render);
         }
