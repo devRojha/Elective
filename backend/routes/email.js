@@ -27,7 +27,11 @@ const sendEmail = async (sE, sP, recivers, message)=>{
         from: senderEmail,  // Sender address
         to: recivers.join(','),   // List of recipients (join all emails from the `nitpmail` array)
         subject: 'New Notification',
-        text: message,
+        text: `
+${message}
+
+Website : https://elective.vercel.app
+        `,
     };
 
     try {
@@ -70,17 +74,14 @@ router.post("/link" ,  async (req , res)=>{
         const Api = process.env.REQUESTAPI
         const message= 
         `
-        Hii ${user.Name}
+Hii ${user.Name}
 
-        You have requested for Password change.
-        Please follow to below Link to update your Password
-          
-        Link : ${Api}/${user._id}
+You have requested for Password change.
+Please follow to below Link to update your Password
+        
+Link : ${Api}/${user._id}
 
-        Note : Please do not share this Link to anyone and this is an auto generated Mail so please do not reply to this mail.
-
-        Regards
-        Devraj 
+Note : Please do not share this Link to anyone and this is an auto generated Mail so please do not reply to this mail. 
         ` ;
         await sendEmail(authorEmail, authorTxt, recivers, message);
         res.status(200).json({"msg" : "Link Sent"});
@@ -103,17 +104,14 @@ router.post("/otp" ,  async (req , res)=>{
 
         const message= 
         `
-        Hii ${Name}
+Hii ${Name}
 
-        You have requested for Registration.
-        Please find the OTP below. This OTP will be active for the next 5 minutes.
-          
-        OTP : ${OTP}
+You have requested for Registration.
+Please find the OTP below. This OTP will be active for the next 5 minutes.
+    
+OTP : ${OTP}
 
-        Note : This is an auto generated Mail so please do not reply to this mail.
-
-        Regards
-        Devraj 
+Note : This is an auto generated Mail so please do not reply to this mail.
         ` ;
         await sendEmail(authorEmail, authorTxt, recivers, message);
         const otpmade = await OTPS.create({
