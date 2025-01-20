@@ -19,7 +19,7 @@ export default function ML() {
     useEffect(()=>{
         const fetchData = async()=>{
             const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/data/all`,{
-                Courses : "ML"
+                Courses : "Machine Learning"
             })
             if(response.data){
                 setList(response.data.list);
@@ -78,7 +78,7 @@ function UploaderCompo({ setuploader }: UploaderCompoProps) {
     //     const formData = new FormData();
     //     formData.append("file", file as Blob);
     //     formData.append("Title", title);
-    //     formData.append("Courses", "ML");
+    //     formData.append("Courses", "Machine Learning");
     //     formData.append("Text", res);
   
     //     const response = await axios.post(
@@ -113,7 +113,7 @@ function UploaderCompo({ setuploader }: UploaderCompoProps) {
                 file,
                 Title : title,
                 Text : res,
-                Courses : "ML"
+                Courses : "Machine Learning"
             },{
                 headers:{
                     token : localStorage.getItem("Token")

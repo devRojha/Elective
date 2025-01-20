@@ -19,7 +19,7 @@ export default function MCT() {
     useEffect(()=>{
         const fetchData = async()=>{
             const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/data/all`,{
-                Courses : "MCT"
+                Courses : "Modern Control Theory"
             })
             if(response.data){
                 setList(response.data.list);
@@ -79,7 +79,7 @@ function UploaderCompo({ setuploader }: UploaderCompoProps) {
     //     const formData = new FormData();
     //     formData.append("file", file as Blob);
     //     formData.append("Title", title);
-    //     formData.append("Courses", "MCT");
+    //     formData.append("Courses", "Modern Control Theory");
     //     formData.append("Text", res);
   
     //     const response = await axios.post(
@@ -114,7 +114,7 @@ function UploaderCompo({ setuploader }: UploaderCompoProps) {
                 file,
                 Title : title,
                 Text : res,
-                Courses : "MCT"
+                Courses : "Modern Control Theory"
             },{
                 headers:{
                     token : localStorage.getItem("Token")
