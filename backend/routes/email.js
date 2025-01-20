@@ -1,6 +1,6 @@
 const express = require("express");
 const EmailAuthMiddleware = require("../middleware/EmailAuthMiddleware");
-const { User } = require("../db");
+const { User, OTPS } = require("../db");
 // require('dotenv').config();
 
 const router = express();
@@ -94,26 +94,19 @@ router.post("/link" ,  async (req , res)=>{
 
 router.post("/otp" ,  async (req , res)=>{
     const {Email, OTP, Name} = req.body;
-    console.log("OTP " + OTP);
+    // console.log("OTP " + OTP);
     let recivers = [];
     recivers.push(Email);
     try{
         const authorEmail = process.env.EMAIL;
         const authorTxt = process.env.APPPASS;
 
-        // const user = await User.findOne({Email : Email}).select("_id Name");
-        // if(!user){
-        //     res.status(404).json({"msg" : "user not found"});
-        //     return;
-        // }
-        // console.log(user);
-
         const message= 
         `
         Hii ${Name}
 
         You have requested for Registration.
-        Please follow to below OTP.
+        Please find the OTP below. This OTP will be active for the next 5 minutes.
           
         OTP : ${OTP}
 
@@ -123,6 +116,13 @@ router.post("/otp" ,  async (req , res)=>{
         Devraj 
         ` ;
         await sendEmail(authorEmail, authorTxt, recivers, message);
+        const otpmade = await OTPS.create({
+            Email,
+            OTP,
+        }) 
+        setTimeout(async () => {
+            await OTPS.deleteOne({Email , OTP});
+        }, 300000);
         res.status(200).json({"msg" : "OTP Sent"});
     }
     catch (e) {
