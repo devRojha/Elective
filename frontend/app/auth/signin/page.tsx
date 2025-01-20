@@ -32,12 +32,11 @@ export default function Signin(){
         }
     }
     return (
-        <div className="h-screen text-black">
+        <div className="pb-20 text-black">
             <div className="h-full flex flex-col justify-center">
                 <div className="flex justify-center">
                     <div className="flex flex-col border border-black rounded-lg px-10 py-10">
-                        <div className=" text-center text-2xl font-bold font-serif">Signin</div>
-                        <div className=" text-center text-lg mb-10 font-thin font-serif">Only For Admin</div>
+                        <div className=" text-center text-2xl font-bold font-serif mb-4">Signin</div>
                         <label className="my-2">Email</label>
                         <input onChange={(e)=>{setEmail(e.target.value)}} className="mb-8 border border-black rounded-md py-2 px-2  w-[300px]"/>
 
@@ -54,6 +53,9 @@ export default function Signin(){
                         </div>
                         <div className="mt-8 flex justify-center">
                             <button onClick={()=> loginfun()} className="border px-4 py-2 rounded-lg border-blue-500 hover:text-blue-900 hover:border-black active:text-white">Login</button>
+                        </div>
+                        <div className="flex mt-4">
+                            <a className="text-blue-600 underline font-serif text-[14px]" href="/requestLink">Forgot Password ?</a>
                         </div>
                     </div>
                 </div>
