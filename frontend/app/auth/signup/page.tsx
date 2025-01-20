@@ -12,6 +12,9 @@ export default function Signup(){
     const [Email, setEmail] = useState<string>("");
     const [Password, setPassword] = useState<string>("");
     const [AppPassword, setAppPassword] = useState<string>("");
+    const [otp, setotp] = useState<string>("");
+    const [OTP, setOTP] = useState<string>("");
+    const [OTPBox, setOTPBox] = useState<boolean>(false);
     const [Course , setCourse] = useState<string | undefined>("");
     const setLoginAtom = useRecoilState(logedinState)[1];
     const router = useRouter();
@@ -19,28 +22,69 @@ export default function Signup(){
     const Registerfun = async ()=>{
         if(!Email || !Password || !Name || !Course){
             alert("Fill Credential")
+            return;
         }
         else{
-            let admin = 0;
-            if(Admin){
-                admin = 1;
+            const rn = Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
+            const otp1 = rn.toString();
+            setotp(otp1);
+            try{
+                const sendMail = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/email/otp`,{
+                    Email,
+                    OTP : otp1,
+                    Name
+                })
+                if(sendMail.data.msg === "OTP Sent"){
+                    setOTPBox(true);
+                }
+                else{
+                    alert("please try again later");
+                }
             }
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/signup`,{
-                Name,
-                Admin : admin,
-                Email, 
-                Password,
-                AppPassword,
-                Course,
-            })
-            if(response.data){
-                localStorage.setItem("Token" , response.data.Token);
-                setLoginAtom(true);
-                router.push("/")
+            catch(e){
+                console.log(e);
+                alert("Internal Server Down");
             }
         }
     }
 
+    const SendRequest = async()=>{
+        if(!Email || !Password || !Name || !Course){
+            alert("Fill Credential")
+            return;
+        }
+        let admin = 0;
+        if(Admin){
+            admin = 1;
+        }
+        if(otp === OTP){
+            try{
+                const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/signup`,{
+                    Name,
+                    Admin : admin,
+                    Email, 
+                    Password,
+                    AppPassword,
+                    Course,
+                })
+                alert(response.data.msg);
+                if(response.data){
+                    localStorage.setItem("Token" , response.data.Token);
+                    setLoginAtom(true);
+                    router.push("/")
+                }
+            }
+            catch(e){
+                console.log(e);
+                alert("User allready Exist");
+            }
+        }
+        else{
+            // failed with multiple user hit simultaneously
+            alert("OTP not matched");
+            // setOTPBox(false);
+        }
+    }
     return (
         <div className=" text-black">
             <div className="h-full flex flex-col justify-center">
@@ -76,9 +120,20 @@ export default function Signup(){
                             <a className="text-[10px] mb-2 underline text-blue-900" href="https://youtu.be/MkLX85XU5rU?si=6IR-iZLc8GntZd29" target="blank">How to get an App Password ?</a>
                             <input onChange={(e)=>{setAppPassword(e.target.value)}} className="border border-black rounded-md py-2 px-2  w-[300px]"/>
                         </div>
+                        <div className={`${OTPBox ? "flex" : "hidden"} border justify-center mt-8`}>
+                            <div className="flex flex-col">
+                                <label>OTP : </label>
+                                <div className="w-full text-[10px] text-slate-400 font-serif mb-2">An otp will send on your Email</div>
+                                <input onChange={(e)=>setOTP(e.target.value)} className="border border-black rounded-md p-2" placeholder="123456"/>
+                                <div className="flex justify-center mt-2">
+                                    <button onClick={()=> SendRequest()} className={`border px-4 py-2 rounded-lg border-blue-500 hover:text-blue-900 hover:border-black active:text-white`}>Verify</button>
+                                </div>
+                            </div>
+                        </div>
                         <div className="mt-8 flex justify-center">
-                            <button onClick={()=> Registerfun()} className={`${(Admin)?"hidden":""} border px-4 py-2 rounded-lg border-blue-500 hover:text-blue-900 hover:border-black active:text-white`}>Register</button>
-                            <button onClick={()=> Registerfun()} className={`${(Admin)?"":"hidden"} border px-4 py-2 rounded-lg border-blue-500 hover:text-blue-900 hover:border-black active:text-white`}>Request for Admin</button>
+                            <button onClick={()=> Registerfun()} className={`${(OTPBox) ? "hidden" : ""} ${(Admin)?"hidden":""} border px-4 py-2 rounded-lg border-blue-500 hover:text-blue-900 hover:border-black active:text-white`}>Register</button>
+                            <button onClick={()=> Registerfun()} className={`${(OTPBox) ? "hidden" : ""} ${(Admin)?"":"hidden"} border px-4 py-2 rounded-lg border-blue-500 hover:text-blue-900 hover:border-black active:text-white`}>Request for Admin</button>
+                            <button onClick={()=> Registerfun()} className={`${(OTPBox) ? "" : "hidden"} ${(Admin)?"":"hidden"} border px-4 py-2 rounded-lg border-blue-500 hover:text-blue-900 hover:border-black active:text-white`}>Resend OTP</button>
                         </div>
                     </div>
                 </div>

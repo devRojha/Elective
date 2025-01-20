@@ -39,6 +39,21 @@ const sendEmail = async (sE, sP, recivers, message)=>{
     }
 };
 
+router.post("/" ,EmailAuthMiddleware, async (req , res)=>{
+    authorEmail = req.authorEmail;
+    authorTxt = req.txt;
+    const message = req.body.message;
+    const recivers= req.body.recivers;
+    try{
+        await sendEmail(authorEmail, authorTxt, recivers, message);
+        res.status(200).json({"msg" : "Mail Sent"});
+    }
+    catch (e) {
+        console.error("email sent failed with error:", e);
+        res.status(500).json({ "msg": "email sent failed with error" });
+    }
+})
+
 router.post("/link" ,  async (req , res)=>{
     const {Email} = req.body;
     let recivers = [];
@@ -76,18 +91,43 @@ router.post("/link" ,  async (req , res)=>{
     }
 })
 
-router.post("/" ,EmailAuthMiddleware, async (req , res)=>{
-    authorEmail = req.authorEmail;
-    authorTxt = req.txt;
-    const message = req.body.message;
-    const recivers= req.body.recivers;
+
+router.post("/otp" ,  async (req , res)=>{
+    const {Email, OTP, Name} = req.body;
+    console.log("OTP " + OTP);
+    let recivers = [];
+    recivers.push(Email);
     try{
+        const authorEmail = process.env.EMAIL;
+        const authorTxt = process.env.APPPASS;
+
+        // const user = await User.findOne({Email : Email}).select("_id Name");
+        // if(!user){
+        //     res.status(404).json({"msg" : "user not found"});
+        //     return;
+        // }
+        // console.log(user);
+
+        const message= 
+        `
+        Hii ${Name}
+
+        You have requested for Registration.
+        Please follow to below OTP.
+          
+        OTP : ${OTP}
+
+        Note : This is an auto generated Mail so please do not reply to this mail.
+
+        Regards
+        Devraj 
+        ` ;
         await sendEmail(authorEmail, authorTxt, recivers, message);
-        res.status(200).json({"msg" : "Mail Sent"});
+        res.status(200).json({"msg" : "OTP Sent"});
     }
     catch (e) {
-        console.error("email sent failed with error:", e);
-        res.status(500).json({ "msg": "email sent failed with error" });
+        console.error("Link sent failed with error:", e);
+        res.status(500).json({ "msg": "Link sent failed with error" });
     }
 })
 
