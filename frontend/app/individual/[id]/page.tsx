@@ -6,6 +6,7 @@
 
 import { adminState } from "@/state/atom";
 import axios from "axios";
+import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
@@ -73,10 +74,16 @@ export default function Page() {
                 <UploaderCompo setuploader={setuploader}/>
             </div>
           <div className="text-center text-2xl font-bold font-serif mb-20 flex justify-center">
-            <button  onClick={()=>router.push("/ml")} className=" absolute left-10 max-sm:left-2">--</button>
+            <button  onClick={()=>router.push("/ml")} className=" absolute left-10 max-sm:left-2">
+                <Image src={"/back.png"} height={30} width={30} alt="loading.."/>
+            </button>
             <div>{title}</div>
-            <button onClick={()=>deleteFile()}  className={`${(AdminState)? "": "hidden"} absolute right-20 max-sm:right-10`}>o</button>
-            <button onClick={()=>setuploader(true)}  className={`${(AdminState)? "": "hidden"} absolute right-10 max-sm:right-2`}>+</button>
+            <div className="">
+                <button onClick={()=>deleteFile()}  className={`${(AdminState)? "": "hidden"} absolute right-20 max-sm:right-10 `}>
+                    <Image src={"/delete.png"} height={25} width={25} alt="loading.."/>
+                </button>
+                <button onClick={()=>setuploader(true)}  className={`${(AdminState)? "": "hidden"} absolute right-10 max-sm:right-2 `}>+</button>
+            </div>
           </div>
           {(file.length > 0)?
                 <div className=" flex justify-center mb-20">

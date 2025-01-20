@@ -2,6 +2,7 @@
 
 import { adminState } from "@/state/atom";
 import axios from "axios";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
@@ -32,7 +33,9 @@ export default function ML() {
                 <UploaderCompo setuploader={setuploader}/>
             </div>
           <div className="text-center text-2xl font-bold font-serif mb-20 flex justify-center">
-            <button  onClick={()=>router.push("/")} className=" absolute left-10 max-sm:left-2 z-0">--</button>
+            <button  onClick={()=>router.push("/")} className=" absolute left-10 max-sm:left-2 z-0">
+              <Image src={"/back.png"} height={30} width={30} alt="loading.."/>
+            </button>
             <div>Machine Learning</div>
             <button onClick={()=> setuploader(true)} className={`${(AdminState)? "": "hidden"} absolute right-10 max-sm:right-2 z-0`}>+</button>
           </div>

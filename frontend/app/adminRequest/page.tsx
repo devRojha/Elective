@@ -1,5 +1,6 @@
 "use client"
 import axios from "axios";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -94,8 +95,12 @@ function Compo({Name , Email , id, render , setRender}:CompoType){
                 <div className="flex justify-start">{Email}</div>
             </div>
             <div className="">
-                <button onClick={()=>accept()} className="text-green-500 font-bold">,/</button>
-                <button onClick={()=>reject()} className="ml-4 text-red-700 font-bold">X</button>
+                <button onClick={()=>accept()} className="text-green-500 font-bold">
+                    <Image src={"/tick.png"} height={30} width={30} alt="loading.."/>
+                </button>
+                <button onClick={()=>reject()} className="ml-4 text-red-700 font-bold">
+                    <Image src={"/delete.png"} height={30} width={30} alt="loading.."/>
+                </button>
             </div>
         </div>
     )

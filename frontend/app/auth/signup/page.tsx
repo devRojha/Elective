@@ -120,7 +120,7 @@ export default function Signup(){
                             <a className="text-[10px] mb-2 underline text-blue-900" href="https://youtu.be/MkLX85XU5rU?si=6IR-iZLc8GntZd29" target="blank">How to get an App Password ?</a>
                             <input onChange={(e)=>{setAppPassword(e.target.value)}} className="border border-black rounded-md py-2 px-2  w-[300px]"/>
                         </div>
-                        <div className={`${OTPBox ? "flex" : "hidden"} border justify-center mt-8`}>
+                        <div className={`${OTPBox ? "flex" : "hidden"} border justify-center mt-8 rounded-md p-4 shadow-md`}>
                             <div className="flex flex-col">
                                 <label>OTP : </label>
                                 <div className="w-full text-[10px] text-slate-400 font-serif mb-2">An otp will send on your Email</div>
@@ -133,7 +133,7 @@ export default function Signup(){
                         <div className="mt-8 flex justify-center">
                             <button onClick={()=> Registerfun()} className={`${(OTPBox) ? "hidden" : ""} ${(Admin)?"hidden":""} border px-4 py-2 rounded-lg border-blue-500 hover:text-blue-900 hover:border-black active:text-white`}>Register</button>
                             <button onClick={()=> Registerfun()} className={`${(OTPBox) ? "hidden" : ""} ${(Admin)?"":"hidden"} border px-4 py-2 rounded-lg border-blue-500 hover:text-blue-900 hover:border-black active:text-white`}>Request for Admin</button>
-                            <button onClick={()=> Registerfun()} className={`${(OTPBox) ? "" : "hidden"} ${(Admin)?"":"hidden"} border px-4 py-2 rounded-lg border-blue-500 hover:text-blue-900 hover:border-black active:text-white`}>Resend OTP</button>
+                            <button onClick={()=> Registerfun()} className={`${(OTPBox) ? "" : "hidden"} border px-4 py-2 rounded-lg border-blue-500 hover:text-blue-900 hover:border-black active:text-white`}>Resend OTP</button>
                         </div>
                     </div>
                 </div>
