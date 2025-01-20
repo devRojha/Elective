@@ -148,7 +148,7 @@ router.post("/signin" , async (req , res)=>{
 })
 
 router.put("/update" , authMiddleware , async (req , res)=>{
-    const {Name, Email, Password, AppPassword, Course} = req.body;
+    const {Name, Email, AppPassword, Course} = req.body;
     const authorID = req.authorID;
     try{
         const user = await User.findOne({_id : authorID});
@@ -157,10 +157,6 @@ router.put("/update" , authMiddleware , async (req , res)=>{
         }
         if((Email.length > 0) && Email.includes("@nitp.ac.in")){
             user.Email = Email;
-        }
-        if(Password.length > 0){
-            const hasPassword = await bcrypt.hash(Password , 10);
-            user.Password = hasPassword;
         }
         if(Course.length > 0){
             user.Course = Course;
@@ -173,6 +169,24 @@ router.put("/update" , authMiddleware , async (req , res)=>{
         const payload = {userId : authorID};
         const Token = jwt.sign(payload , secretKey);
         res.status(200).json({Token});
+    }
+    catch (e) {
+        console.error("update failed with error:", e);
+        res.status(500).json({ "msg": "update failed with error" });
+    }
+})
+
+router.put("/updatePassword" , async (req , res)=>{
+    const {id, Password} = req.body;
+    try{
+        const hasPassword = await bcrypt.hash(Password , 10);
+        const updatedUser = await User.findOneAndUpdate({_id : id},{Password : hasPassword});
+        if(updatedUser){
+            res.status(200).json({"msg" : "Password Updated"});
+        }
+        else{
+            res.status(404).json({"msg" : "User not found"});
+        }
     }
     catch (e) {
         console.error("update failed with error:", e);

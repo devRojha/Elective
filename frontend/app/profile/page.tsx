@@ -12,7 +12,6 @@ export default function Profile(){
     const [Admin , setAdmin] = useState<boolean>(false);
     const [Name , setName] = useState<string>("");
     const [Email, setEmail] = useState<string>("");
-    const [Password, setPassword] = useState<string>("");
     const [AppPassword, setAppPassword] = useState<string>("");
     const [Course , setCourse] = useState<string | undefined>("");
     const setLoginAtom = useRecoilState(logedinState)[1];
@@ -29,7 +28,6 @@ export default function Profile(){
         const response = await axios.put(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/update`,{
             Name,
             Email, 
-            Password,
             AppPassword,
             Course,
         },{
@@ -73,12 +71,7 @@ export default function Profile(){
                             <div>{useremail}</div>
                         </div>
                         <input onChange={(e)=>{setEmail(e.target.value)}} className="mb-8 border border-black rounded-md py-2 px-2  w-[300px]"/>
-                        
-                        <div className={`flex flex-col`}>
-                            <label className="my-2">Password</label>
-                            <input onChange={(e)=>{setPassword(e.target.value)}} className="border mb-8 border-black rounded-md py-2 px-2  w-[300px]"/>
-                        </div>
-                        
+
                         <div className="flex">
                             <div className="flex flex-col text-slate-500 my-2">
                                 <label className="">Courses :</label>

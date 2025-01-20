@@ -42,7 +42,7 @@ export default function Signup(){
     }
 
     return (
-        <div className="h-screen text-black">
+        <div className=" text-black">
             <div className="h-full flex flex-col justify-center">
                 <div className="flex justify-center">
                     <div className="flex flex-col border border-black rounded-lg px-10 py-10 mb-4">
