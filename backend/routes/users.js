@@ -156,21 +156,28 @@ router.post("/signin" , async (req , res)=>{
 })
 
 router.put("/update" , authMiddleware , async (req , res)=>{
-    const {Name, Email, AppPassword, Course} = req.body;
+    const {Name, AppPassword, Admin, Course} = req.body;
     const authorID = req.authorID;
     try{
         const user = await User.findOne({_id : authorID});
         if(Name.length > 0){
             user.Name = Name;
         }
-        if((Email.length > 0) && Email.includes("@nitp.ac.in")){
-            user.Email = Email;
-        }
         if(Course.length > 0){
             user.Course = Course;
         }
         if(AppPassword.length > 0){
             user.AppPassword = AppPassword;
+        }
+        if((Admin === 1) && (AppPassword.length > 0)){
+            const findUser = await AdminRequest.findOne({Email : user.Email});
+            if(!findUser){
+                const adminReq = await AdminRequest.create({
+                    authorId : authorID,
+                    Name : user.Name,
+                    Email : user.Email
+                })
+            }
         }
         console.log(user);
         const updatedUser = await User.findByIdAndUpdate({_id : authorID}, user);

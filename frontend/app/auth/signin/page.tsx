@@ -13,7 +13,9 @@ export default function Signin(){
     const [Password, setPassword] = useState<string>("");
     const [AppPassword, setAppPassword] = useState<string>("");
     const [Admin , setAdmin] = useState<boolean>(false);
+    const [showPass , setShowPass] = useState<boolean>(false);
     const setLoginAtom = useRecoilState(logedinState)[1];
+
     const loginfun = async ()=>{
         if(!Email || !Password){
             alert("Fill Credential")
@@ -38,11 +40,15 @@ export default function Signin(){
                     <div className="flex flex-col border border-black rounded-lg px-10 py-10">
                         <div className=" text-center text-2xl font-bold font-serif mb-4">Signin</div>
                         <label className="my-2">Email</label>
-                        <input onChange={(e)=>{setEmail(e.target.value)}} className="mb-8 border border-black rounded-md py-2 px-2  w-[300px]"/>
+                        <input type="email" onChange={(e)=>{setEmail(e.target.value)}} className="mb-8 border border-black rounded-md py-2 px-2  w-[300px]" placeholder="cat@nitp.ac.in"/>
 
                         <label className="my-2">Password</label>
-                        <input onChange={(e)=>{setPassword(e.target.value)}} className="border border-black rounded-md py-2 px-2  w-[300px]"/>
-                        <div className={`mt-4`}>
+                        <input type="password" onChange={(e)=>{setPassword(e.target.value)}} className="border border-black rounded-md py-2 px-2  w-[300px]" placeholder="********"/>
+                        <div className="mb-6 mt-2">
+                                <button onClick={()=>setShowPass(!showPass)} className={` ${showPass? "text-blue-600": "text-black"} underline`}>Show Password</button>
+                                <div className={`${(showPass && Password.length > 0)? "flex": "hidden"} border border-black rounded-md py-2 px-2  w-[300px]`}>{Password}</div>
+                            </div>
+                        <div className={``}>
                             <label className="mr-2">For Admin</label>
                             <input onChange={(e)=>setAdmin(e.target.checked)} type="checkbox" />
                         </div>
