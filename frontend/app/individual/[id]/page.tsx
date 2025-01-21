@@ -20,6 +20,7 @@ export default function Page() {
     const [file , setFile] = useState<string>("")
     const [text , setText] = useState<string>("")
     const [title , setTitle] = useState<string>("")
+    const [Course , setCourse] = useState<string>("")
     const AdminState = useRecoilValue(adminState)
 
     useEffect(()=>{
@@ -32,6 +33,16 @@ export default function Page() {
             if(response.data.data){
                 // console.log(response.data)
                 setTitle(response.data.data.Title);
+                const crs = response.data.data.Courses
+                if(crs === "Modern Control Theory"){
+                    setCourse("mct");
+                }
+                else if(crs === "Robotics"){
+                    setCourse("robotics");
+                }
+                else if(crs === "Machine Learning"){
+                    setCourse("ml");
+                }
                 if(response.data.data.Text){
                     setText(response.data.data.Text);
                 }
@@ -58,7 +69,7 @@ export default function Page() {
             })
             if(response.data.msg === "Deleted"){
                 alert("Deleted");
-                router.push("/");
+                router.push(`/${Course}`);
             }
             else{
                 alert("Cant Delete")
@@ -68,25 +79,37 @@ export default function Page() {
             console.log(e);
         }
     }
+
+    const formatText = (text: string): string => {
+        const urlRegex = /(https?:\/\/[^\s]+)/g;
+
+        // Replace URLs with clickable links and preserve newlines
+        return text
+            .replace(urlRegex, (url) => {
+                return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">${url}</a>`;
+            })
+            .replace(/\n/g, "<br>"); // Replace newlines with <br> tags
+    };
+
     return (
         <div className=" bg-white text-black">
             <div className={`${(uploader)?"fixed":"hidden"} h-screen w-full  flex justify-center border-green-400 z-10`}>
                 <UploaderCompo setuploader={setuploader}/>
             </div>
-          <div className="text-center text-2xl font-bold font-serif mb-20 flex justify-center">
-            <button  onClick={()=>router.push("/ml")} className=" absolute left-10 max-sm:left-2">
-                <Image src={"/back.png"} height={30} width={30} alt="loading.."/>
-            </button>
-            <div>{title}</div>
-            <div className="">
-                <button onClick={()=>deleteFile()}  className={`${(AdminState)? "": "hidden"} absolute right-20 max-sm:right-10 `}>
-                    <Image src={"/delete.png"} height={25} width={25} alt="loading.."/>
+            <div className="text-center text-2xl font-bold font-serif flex justify-center">
+                <button  onClick={()=>{router.push(`/${Course}`)}} className=" absolute left-10 max-sm:left-2">
+                    <Image src={"/back.png"} height={30} width={30} alt="loading.."/>
                 </button>
-                <button onClick={()=>setuploader(true)}  className={`${(AdminState)? "": "hidden"} absolute right-10 max-sm:right-2 `}>+</button>
+                <div className="px-4 mt-10">{title}</div>
+                <div className="">
+                    <button onClick={()=>deleteFile()}  className={`${(AdminState)? "": "hidden"} absolute right-20 max-sm:right-10 `}>
+                        <Image src={"/delete.png"} height={25} width={25} alt="loading.."/>
+                    </button>
+                    <button onClick={()=>setuploader(true)}  className={`${(AdminState)? "": "hidden"} absolute right-10 max-sm:right-2 `}>+</button>
+                </div>
             </div>
-          </div>
           {(file.length > 0)?
-                <div className=" flex justify-center mb-20">
+                <div className=" flex justify-center mt-20">
                     <a className="border border-black px-2 py-1 rounded-md hover:text-blue-900 hover:border-blue-900 font-bold" href={file} target="blank">Get Resources</a>
 
                 </div>
@@ -94,10 +117,16 @@ export default function Page() {
             }
 
             {(text.length > 0)?
-                <div className=" flex justify-center overflow-auto">
-                    <div className="w-[800px] mb-10 rounded-md max-md:w-[600px] max-sm:w-[375px] shadow-lg shadow-slate-600 h-[500px] p-4">{text}</div>
+                <div className={`${(file.length > 0)?"mt-10":"mt-20"} flex justify-center overflow-auto`}>
+                    <div
+                        className="w-[800px] mb-10 rounded-md max-md:w-[600px] max-sm:w-[420px] shadow-lg shadow-slate-600 h-[500px] p-4 overflow-y-auto"
+                        style={{ whiteSpace: "pre-wrap" }}
+                        dangerouslySetInnerHTML={{
+                            __html: formatText(text),
+                        }}
+                    />
                 </div>
-            : <div></div>
+            : <div className="bg-white pt-10"></div>
             }
       </div>
     )
@@ -117,40 +146,6 @@ function UploaderCompo({ setuploader }: UploaderCompoProps) {
       const param = useParams();
       const id = param.id;
 
-
-      // const submit = async (event: React.FormEvent<HTMLFormElement>) => {
-      //   event.preventDefault();
-    
-      //   try {
-      //     const token = localStorage.getItem("Token");
-      //     if (!token) {
-      //       console.error("Token not found in localStorage");
-      //       return;
-      //     }
-    
-      //     const formData = new FormData();
-      //     formData.append("file", file as Blob);
-      //     formData.append("Title", title);
-      //     formData.append("Courses", "ML");
-      //     formData.append("Text", res);
-    
-      //     const response = await axios.post(
-      //       `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/data/upload`,
-      //       formData,
-      //       {
-      //         headers: {
-      //           token: token,
-      //           "Content-Type": "multipart/form-data",
-      //         },
-      //       }
-      //     );
-    
-      //     console.log("Upload response:", response.data);
-      //   } catch (error) {
-      //     console.error("Error uploading data:", error);
-      //   }
-      // };
-    
     const updateTitle = async()=>{
         if(!localStorage.getItem("Token") || !AdminState){
             alert("Authentication Required");
@@ -252,13 +247,12 @@ function UploaderCompo({ setuploader }: UploaderCompoProps) {
             <button onClick={()=>{updateDrive()}} className="border p-2 bg-blue-600 hover:bg-blue-900 active:text-black text-white rounded-md mt-2 mr-4">update Drive</button>
             <button onClick={()=>{updateText()}} className="border p-2 bg-blue-600 hover:bg-blue-900 active:text-black text-white rounded-md mt-2">update Text</button>
             <div className="mb-4 text-[13px]">
-              Note: If your file is large, then please upload your file on Google
-              Drive and paste the link in resources.
+              Note: If you have more the One Link please use below Text box in Resources
             </div>
             <textarea
               onChange={(e) => setRes(e.target.value)}
               className="bg-zinc-200 border border-black rounded-lg h-[250px] w-full p-4"
-              placeholder="Resources..."
+              placeholder="Comment or some other Resources..."
             />
 
         </div>

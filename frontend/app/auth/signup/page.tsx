@@ -16,11 +16,16 @@ export default function Signup(){
     const [OTPBox, setOTPBox] = useState<boolean>(false);
     const [Course , setCourse] = useState<string | undefined>("");
     const setLoginAtom = useRecoilState(logedinState)[1];
+    const [showPass , setShowPass] = useState<boolean>(false);
     const router = useRouter();
 
     const Registerfun = async ()=>{
         if(!Email || !Password || !Name || !Course){
             alert("Fill Credential")
+            return;
+        }
+        if(!Email.includes("@nitp.ac.in")){
+            alert("Write Proper mail")
             return;
         }
         else{
@@ -84,18 +89,22 @@ export default function Signup(){
                     <div className="flex flex-col border border-black rounded-lg px-10 py-10 mb-4">
                         <div className=" text-center text-2xl font-bold font-serif">Signup</div>
                         <label className="my-2">Name</label>
-                        <input onChange={(e)=>{setName(e.target.value)}} className="mb-8 border border-black rounded-md py-2 px-2  w-[300px]"/>
+                        <input onChange={(e)=>{setName(e.target.value)}} className="mb-8 border border-black rounded-md py-2 px-2  w-[300px]" placeholder="Enter Your Name"/>
 
                         <label className="my-2">Email</label>
-                        <input onChange={(e)=>{setEmail(e.target.value)}} className="mb-8 border border-black rounded-md py-2 px-2  w-[300px]"/>
+                        <input type="email" onChange={(e)=>{setEmail(e.target.value)}} className="mb-8 border border-black rounded-md py-2 px-2  w-[300px]" placeholder="Enter mail of nitp domain"/>
                         
                         <div className={`flex flex-col`}>
-                            <label className="my-2">Password</label>
-                            <input onChange={(e)=>{setPassword(e.target.value)}} className="border mb-8 border-black rounded-md py-2 px-2  w-[300px]"/>
+                            <label className="my-2">Create Password</label>
+                            <input type="password" onChange={(e)=>{setPassword(e.target.value)}} className="border border-black rounded-md py-2 px-2  w-[300px]" placeholder="********"/>
+                            <div className="mb-6 mt-2">
+                                <button onClick={()=>setShowPass(!showPass)} className={` ${showPass? "text-blue-600": "text-black"} underline`}>Show Password</button>
+                                <div className={`${(showPass && Password.length > 0)? "flex": "hidden"} border border-black rounded-md py-2 px-2  w-[300px]`}>{Password}</div>
+                            </div>
                         </div>
                         
                         <div className="flex">
-                            <label>Course</label>
+                            <div>Course</div>
                             <select onChange={(e) => setCourse(e.target.value)} className="ml-2 border rounded-lg border-black">
                                 <option value="">--Select--</option>
                                 <option value="Machine Learning">Machine Learning</option>

@@ -25,9 +25,14 @@ export default function Profile(){
     },[render])
 
     const updateProfile = async ()=>{
+        let admin = 0;
+        if(Admin){
+            admin = 1;
+        }
         const response = await axios.put(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/update`,{
             Name,
-            Email, 
+            Email,
+            Admin : admin, 
             AppPassword,
             Course,
         },{
@@ -65,13 +70,12 @@ export default function Profile(){
                             <label className="">Name :</label>
                             <div>{username}</div>
                         </div>
-                        <input onChange={(e)=>{setName(e.target.value)}} className="mb-8 border border-black rounded-md py-2 px-2  w-[300px]"/>
+                        <input onChange={(e)=>{setName(e.target.value)}} className="mb-8 border border-black rounded-md py-2 px-2  w-[300px]" placeholder="Enter your updated name here"/>
 
-                        <div className="flex space-x-2 text-slate-500 my-2">
+                        <div className="flex space-x-2 text-slate-500 mb-4">
                             <label className="">Email :</label>
                             <div>{useremail}</div>
                         </div>
-                        <input onChange={(e)=>{setEmail(e.target.value)}} className="mb-8 border border-black rounded-md py-2 px-2  w-[300px]"/>
 
                         <div className="flex">
                             <div className="flex flex-col text-slate-500 my-2">
@@ -95,7 +99,8 @@ export default function Profile(){
                             <input onChange={(e)=>{setAppPassword(e.target.value)}} className="border border-black rounded-md py-2 px-2  w-[300px]"/>
                         </div>
                         <div className="mt-8 flex justify-center">
-                            <button onClick={()=> updateProfile()} className={` border px-4 py-2 rounded-lg border-blue-500 hover:text-blue-900 hover:border-black active:text-white`}>Update</button>
+                            <button onClick={()=> updateProfile()} className={`${Admin? "hidden" : ""} border px-4 py-2 rounded-lg border-blue-500 hover:text-blue-900 hover:border-black active:text-white`}>Update</button>
+                            <button onClick={()=> updateProfile()} className={`${Admin? "" : "hidden"} border px-4 py-2 rounded-lg border-blue-500 hover:text-blue-900 hover:border-black active:text-white`}>Request for / Update as Admin</button>
                             <button onClick={()=> DeleteProfile()} className={` border px-4 py-2 rounded-lg active:text-black hover:border-black bg-red-700 text-white ml-4`}>Delete Account</button>
                         </div>
                     </div>
