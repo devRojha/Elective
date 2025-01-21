@@ -65,10 +65,10 @@ export default function Signup(){
                 AppPassword,
                 Course,
             })
-            alert(response.data.msg);
             if(response.data){
                 localStorage.setItem("Token" , response.data.Token);
                 setLoginAtom(true);
+                alert("User created")
                 router.push("/")
             }
         }

@@ -87,7 +87,7 @@ export default function Page() {
           </div>
           {(file.length > 0)?
                 <div className=" flex justify-center mb-20">
-                    <a className="border border-black px-2 py-1 rounded-md hover:text-blue-900 hover:border-blue-900 font-bold" href={file} target="blank">Get Document</a>
+                    <a className="border border-black px-2 py-1 rounded-md hover:text-blue-900 hover:border-blue-900 font-bold" href={file} target="blank">Get Resources</a>
 
                 </div>
             : <div></div>
