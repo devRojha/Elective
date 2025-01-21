@@ -169,7 +169,7 @@ router.put("/update" , authMiddleware , async (req , res)=>{
         if(AppPassword.length > 0){
             user.AppPassword = AppPassword;
         }
-        if((Admin === 1) && (AppPassword.length > 0)){
+        if(((Admin === 1) && (user.Admin === 0)) && (AppPassword.length > 0)){
             const findUser = await AdminRequest.findOne({Email : user.Email});
             if(!findUser){
                 const adminReq = await AdminRequest.create({
@@ -179,6 +179,7 @@ router.put("/update" , authMiddleware , async (req , res)=>{
                 })
             }
         }
+        
         console.log(user);
         const updatedUser = await User.findByIdAndUpdate({_id : authorID}, user);
         const payload = {userId : authorID};
