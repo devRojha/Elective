@@ -46,7 +46,7 @@ export default function Footer(){
                     {/* Layer 2*/}
                     <div className="text-sm  mt-6">
                         <div className="font-bold mb-1">Designed and Maintained by </div>
-                        <div>Devraj Kumar</div>
+                        <div><a href="https://www.devrajkumar.me/" className="hover:underline" target="blank">Devraj Kumar</a></div>
                         <div>Email: <a className="underline" href="mailto:devrajk.ug22.ee@nitp.ac.in">devrajk.ug22.ee@nitp.ac.in</a></div>
                         <div>College Website: <a className="underline" href="">www.nitp.ac.in</a></div>
                     </div>
