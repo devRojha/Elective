@@ -113,7 +113,6 @@ OTP : ${OTP}
 
 Note : This is an auto generated Mail so please do not reply to this mail.
         ` ;
-        await sendEmail(authorEmail, authorTxt, recivers, message);
         const otpmade = await OTPS.create({
             Email,
             OTP,
@@ -121,11 +120,12 @@ Note : This is an auto generated Mail so please do not reply to this mail.
         setTimeout(async () => {
             await OTPS.deleteOne({Email , OTP});
         }, 300000);
+        await sendEmail(authorEmail, authorTxt, recivers, message);
         res.status(200).json({"msg" : "OTP Sent"});
     }
     catch (e) {
-        console.error("Link sent failed with error:", e);
-        res.status(500).json({ "msg": "Link sent failed with error" });
+        console.error("OTP sent failed with error:", e);
+        res.status(500).json({ "msg": "OTP sent failed with error" });
     }
 })
 

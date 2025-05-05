@@ -1,0 +1,54 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+model User {
+  id            String    @id @default(cuid())
+  Name          String
+  Email         String    @unique 
+  Password      String    
+  AppPassword   String    @default("")
+  Admin         Int       @default(0)           
+  Course        String
+  request       Request?    // one-to-one relation
+  admin         Admin?     // one-to-one relation
+  resources     Resources[] // one-to-many relation
+}
+model Admin {
+  id            String    @id @default(cuid())
+  authorId      String    @unique
+  AccessId      String
+  author        User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+}
+
+model Request {
+  id            String    @id @default(cuid())
+  authorId      String    @unique    
+  author        User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+}
+
+model Resources {
+  id            String    @id @default(cuid())
+  Title         String
+  AuthorId      String 
+  PDF           String?
+  Text          String? 
+  Courses       String 
+  author        User      @relation(fields: [AuthorId], references: [id])
+}
+
+model OTP {
+  id            String    @id @default(cuid())
+  Email         String    @unique
+  OTP           String
+}
