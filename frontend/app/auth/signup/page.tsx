@@ -29,12 +29,9 @@ export default function Signup(){
             return;
         }
         else{
-            const rn = Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000;
-            const otp1 = rn.toString();
             try{
                 const sendMail = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/email/otp`,{
                     Email,
-                    OTP : otp1,
                     Name
                 })
                 if(sendMail.data.msg === "OTP Sent"){
