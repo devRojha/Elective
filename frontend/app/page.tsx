@@ -1,6 +1,6 @@
 "use client"
 import { useRouter } from "next/navigation";
-
+// main page of the app
 export default function Home() {
   const router = useRouter();
   return (
