@@ -36,6 +36,7 @@ router.get("/all" , authMiddleware , async (c)=>{
     try{
         const users = await prisma.request.findMany({
             select: {
+                id: true,
                 authorId: true,
                 author : {
                     select : {
@@ -64,6 +65,7 @@ router.get("/admin/all" , authMiddleware , async (c)=>{
     try{
         const users = await prisma.admin.findMany({
             select: {
+                id: true,
                 authorId: true,
                 author : {
                     select : {

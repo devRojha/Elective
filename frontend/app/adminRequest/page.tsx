@@ -5,10 +5,12 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 interface requestType{
-    Name : string,
-    Email : string,
+    id : string
     authorId : string,
-    _id : string
+    author : {
+        Name : string,
+        Email : string, 
+    }
 }
 
 export default function Page() {
@@ -44,7 +46,7 @@ export default function Page() {
             <div className="flex flex-col justify-center space-y-4">
                 {requestList.map(list =>{
                     return (
-                        <Compo key={list._id} Name={list.Name} Email={list.Email} id={list.authorId} render={render} setRender={setRender}/> 
+                        <Compo key={list.id} Name={list.author.Name} Email={list.author.Email} id={list.authorId} render={render} setRender={setRender}/> 
                     )
                 })}
           </div>
