@@ -9,6 +9,7 @@ type CustomContext = {
         authorID: string; // Add authorID to the context type
         authorEmail: string; // Add authorEmail to the context type
         txt: string; // Add txt to the context type
+        Admin: boolean; // Add Admin to the context type
     };
 };
 const app = new Hono<CustomContext & {

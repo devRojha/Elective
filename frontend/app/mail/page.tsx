@@ -9,12 +9,12 @@ type SelectOption = {
   label: string;
 };
 
-type ValueType = SelectOption | SelectOption[];
+// type ValueType = SelectOption | SelectOption[];
 
 export default function Mail() {
   const [allUser, setAlluser] = useState<string[]>([]);
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
-  const [filterUser, setfilteruser] = useState<string[]>([]);
+  // const [filterUser, setfilteruser] = useState<string[]>([]);
   const [selectAll, setSelectAll] = useState<boolean>(false);
   const [msg, setMsg] = useState<string>("");
   const [options, setOptions] = useState<SelectOption[]>([]);
@@ -23,7 +23,7 @@ export default function Mail() {
     const fetchData = async () => {
       const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/all`,{
         headers : {
-            token : localStorage.getItem("Token")
+          token : localStorage.getItem("Token")
         }
       });
       if (response.data) {

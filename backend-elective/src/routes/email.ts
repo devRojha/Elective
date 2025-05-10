@@ -25,6 +25,7 @@ const router = new Hono<CustomContext & {
 }>();
 
 const SMTPURl = 'https://smtp-server-wg4w.onrender.com/send-email'
+// const SMTPURl = 'http://localhost:3012/send-email'
 
 // brodcast email to all users
 router.post('/', EmailAuthMiddlewate, async (c) => {
