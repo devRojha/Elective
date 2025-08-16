@@ -1,5 +1,7 @@
 "use client"
 
+import HeadingTheme from "@/components/HeadingTheme";
+import NavigationButton from "@/components/NavigationButton";
 import { adminState } from "@/state/atom";
 import axios from "axios";
 import Image from "next/image";
@@ -36,17 +38,14 @@ export default function ML() {
             <button  onClick={()=>router.push("/")} className=" absolute left-10 max-sm:left-2 z-0">
               <Image src={"/back.png"} height={30} width={30} alt="loading.."/>
             </button>
-            <div>Machine Learning</div>
-            <button onClick={()=> setuploader(true)} className={`${(AdminState)? "": "hidden"} absolute right-10 max-sm:right-2 z-0`}>+</button>
+            {/* <div >Machine Learning</div> */}
+            <div><HeadingTheme first="Machi" second="ne Lea" third="rning"/></div>
+            <button onClick={()=> setuploader(true)} className={`${(AdminState)? "": "hidden"} absolute right-10 max-sm:right-2 z-0 text-white`}>+</button>
           </div>
           <div className="flex justify-center mb-10 z-10">
               <div className="flex flex-col justify-center space-y-4">
               {lists.map((list : ListItem) => (
-                    <Individual
-                        key={list.id}
-                        id={list.id}
-                        title={list.Title}
-                    />
+                    <NavigationButton  key={list.id} url={`/individual/${list.id}`} name={list.Title}/>
                 ))}
             </div>
           </div>
@@ -62,41 +61,9 @@ interface UploaderCompoProps {
 function UploaderCompo({ setuploader }: UploaderCompoProps) {
     const [res, setRes] = useState<string>("");
     const [title, setTitle] = useState<string>("");
-    // const [file, setFile] = useState<File | null>(null);
     const [file, setFile] = useState<string>("");
     const AdminState = useRecoilValue(adminState);
-    // const submit = async (event: React.FormEvent<HTMLFormElement>) => {
-    //   event.preventDefault();
-  
-    //   try {
-    //     const token = localStorage.getItem("Token");
-    //     if (!token) {
-    //       console.error("Token not found in localStorage");
-    //       return;
-    //     }
-  
-    //     const formData = new FormData();
-    //     formData.append("file", file as Blob);
-    //     formData.append("Title", title);
-    //     formData.append("Courses", "Machine Learning");
-    //     formData.append("Text", res);
-  
-    //     const response = await axios.post(
-    //       `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/data/upload`,
-    //       formData,
-    //       {
-    //         headers: {
-    //           token: token,
-    //           "Content-Type": "multipart/form-data",
-    //         },
-    //       }
-    //     );
-  
-    //     console.log("Upload response:", response.data);
-    //   } catch (error) {
-    //     console.error("Error uploading data:", error);
-    //   }
-    // };
+
 
     const submit = async()=>{
         try {
@@ -167,10 +134,3 @@ function UploaderCompo({ setuploader }: UploaderCompoProps) {
       </div>
     );
   }
-  
-const Individual = ({title, id} : {title : string , id : string})=>{
-    const router = useRouter();
-    return(
-        <button onClick={()=>router.push(`/individual/${id}`)}  className="text-center px-4 py-3 border border-black rounded-lg w-[375px]">{title}</button>
-    )
-}

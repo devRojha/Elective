@@ -6,18 +6,26 @@ import { RecoilRoot } from "recoil";
 import Appbar from "./Appbar";
 import Footer from "./Footer";
 import AppMenu from "./AppMenu";
+import BackgroundStyle from "@/styleComponents/BackGroundStyle";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export default function ClientLayout({ children }: { children: React.ReactNode }): JSX.Element{
-    return (
+export default function ClientLayout({ children }: { children: React.ReactNode }): JSX.Element {
+  return (
     <RecoilRoot>
-      <div className={inter.className}>
+      <div className={`${inter.className} relative min-h-screen`}>
+        
+        {/* Background */}
+        <div className="absolute inset-0 -z-10">
+          <BackgroundStyle />
+        </div>
+
+        {/* Foreground */}
         <Appbar />
         <AppMenu />
-        <div className="pt-24 bg-white">
+        <main className="pt-24 relative z-10 bg-transparent">
           {children}
-        </div>
+        </main>
         <Footer />
       </div>
     </RecoilRoot>

@@ -11,7 +11,9 @@
   "dependencies": {
     "@heroui/avatar": "^2.2.7",
     "axios": "^1.7.9",
+    "gsap": "^3.13.0",
     "next": "14",
+    "ogl": "^1.0.11",
     "react": "^18",
     "react-dom": "^18",
     "react-select": "^5.9.0",

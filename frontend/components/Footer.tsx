@@ -23,7 +23,7 @@ export default function Footer(){
     },[])
     return (
         <div className="">
-            <div className="px-20 max-lg:px-12 max-md:px-6 pt-4 text-zinc-600 bg-zinc-300">
+            <div className="px-20 max-lg:px-12 max-md:px-6 pt-4 text-zinc-400 bg-zinc-900">
                 <div className="text-2xl text-center mb-10 font-bold mt-4">Contact us : </div>
                 <div className="grid grid-cols-3 max-sm:grid-cols-1 max-sm:space-y-2">
                     {/* Layer 1 */}
@@ -46,7 +46,7 @@ export default function Footer(){
                     {/* Layer 2*/}
                     <div className="text-sm  mt-6">
                         <div className="font-bold mb-1">Designed and Maintained by </div>
-                        <div><a href="https://www.devrajkumar.me/" className="hover:underline" target="blank">Devraj Kumar</a></div>
+                        <div>Devraj Kumar <a href="https://www.devrajkumar.me/" className="underline" target="blank">(Portfolio)</a></div>
                         <div>Email: <a className="underline" href="mailto:devrajk.ug22.ee@nitp.ac.in">devrajk.ug22.ee@nitp.ac.in</a></div>
                         <div>College Website: <a className="underline" href="">www.nitp.ac.in</a></div>
                     </div>

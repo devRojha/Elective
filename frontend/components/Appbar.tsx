@@ -54,10 +54,10 @@ export default function Appbar() {
         fetchData();
     },[loginAtom, adminAtom])
     return (
-      <div className="border z-30 fixed w-full bg-white text-black top-0 h-16 pl-4 pr-10 max-sm:pr-4">
+      <div className="text-zinc-400 z-30 fixed w-full bg-black shadow-md shadow-slate-600  top-0 h-16 pl-4 pr-10 max-sm:pr-4">
         <div className="flex justify-between h-full py-2">
             <div className="flex flex-col = justify-center text-2xl font-bold font-serif">
-                <a href="/">Elective</a>
+                <a href="/">Elective.EE</a>
             </div>
             <div className="flex flex-col = justify-center">
                 <div className={`${!(loginAtom)?"flex" : "hidden"}`}>

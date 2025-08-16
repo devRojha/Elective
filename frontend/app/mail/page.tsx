@@ -1,5 +1,6 @@
 "use client"
 
+import HeadingTheme from "@/components/HeadingTheme";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Select, { MultiValue, ActionMeta } from 'react-select';
@@ -73,13 +74,13 @@ export default function Mail() {
   };
 
   return (
-    <div className="text-black h-screen">
-      <div className="text-center text-2xl font-bold font-serif mb-20">Send Email</div>
+    <div className="text-white h-screen">
+      <div className="text-center text-2xl font-bold font-serif mb-20"><HeadingTheme first="Sen" second="d E" third="mail"/></div>
       <div className="flex justify-center">
         <div className="flex flex-col justify-center space-y-4">
           <textarea
             onChange={(e) => setMsg(e.target.value)}
-            className="border border-black rounded-lg p-4 w-[500px] max-sm:w-[360px] h-[300px]"
+            className="bg-zinc-600 rounded-lg p-4 w-[500px] max-sm:w-[360px] h-[300px]"
           />
 
           <Select
@@ -91,7 +92,7 @@ export default function Mail() {
             filterOption={(option, searchText) =>
               option.label.toLowerCase().includes(searchText.toLowerCase())
             }
-            className="border border-black"
+            className="border border-black text-black"
           />
 
           <div className="flex items-center space-x-2">

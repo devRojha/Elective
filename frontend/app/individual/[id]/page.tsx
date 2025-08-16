@@ -92,7 +92,7 @@ export default function Page() {
     };
 
     return (
-        <div className=" bg-white text-black">
+        <div className="  text-zinc-400">
             <div className={`${(uploader)?"fixed":"hidden"} h-screen w-full  flex justify-center border-green-400 z-10`}>
                 <UploaderCompo setuploader={setuploader}/>
             </div>
@@ -100,7 +100,7 @@ export default function Page() {
                 <button  onClick={()=>{router.push(`/${Course}`)}} className=" absolute left-10 max-sm:left-2">
                     <Image src={"/back.png"} height={30} width={30} alt="loading.."/>
                 </button>
-                <div className="px-4 mt-10">{title}</div>
+                <div className="px-4 mt-10 text-white">{title}</div>
                 <div className="">
                     <button onClick={()=>deleteFile()}  className={`${(AdminState)? "": "hidden"} absolute right-20 max-sm:right-10 `}>
                         <Image src={"/delete.png"} height={25} width={25} alt="loading.."/>
@@ -110,7 +110,7 @@ export default function Page() {
             </div>
           {(file.length > 0)?
                 <div className=" flex justify-center mt-20">
-                    <a className="border border-black px-2 py-1 rounded-md hover:text-blue-900 hover:border-blue-900 font-bold" href={file} target="blank">Get Resources</a>
+                    <a className="border border-white px-2 py-1 rounded-md hover:text-blue-300 hover:border-blue-900 font-bold" href={file} target="blank">Get Resources</a>
 
                 </div>
             : <div></div>
@@ -118,15 +118,18 @@ export default function Page() {
 
             {(text.length > 0)?
                 <div className={`${(file.length > 0)?"mt-10":"mt-20"} flex justify-center overflow-auto`}>
+                    <div> 
+                    <div className="">Instructions : </div>
                     <div
-                        className="w-[800px] mb-10 rounded-md max-md:w-[600px] max-sm:w-[420px] shadow-lg shadow-slate-600 h-[500px] p-4 overflow-y-auto"
+                        className="w-[800px] mb-10 rounded-md max-md:w-[600px] max-sm:w-[420px] shadow-md shadow-slate-600 h-[500px] p-4 overflow-y-auto"
                         style={{ whiteSpace: "pre-wrap" }}
                         dangerouslySetInnerHTML={{
                             __html: formatText(text),
                         }}
                     />
+                    </div>
                 </div>
-            : <div className="bg-white pt-10"></div>
+            : <div className="bg-transparent h-[400px] text-center"></div>
             }
       </div>
     )

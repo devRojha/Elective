@@ -1,4 +1,5 @@
 "use client"
+import HeadingTheme from "@/components/HeadingTheme";
 import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -41,7 +42,7 @@ export default function Page() {
 
   return (
     <div className="text-black h-screen overflow-auto pb-10">
-        <div className="text-center text-2xl font-bold font-serif mb-20">Admin Request</div>
+        <div className="text-center text-2xl font-bold font-serif mb-20"><HeadingTheme first="Adm" second="in Re" third="quest"/></div>
         <div className="flex justify-center">
             <div className="flex flex-col justify-center space-y-4">
                 {requestList.map(list =>{
@@ -91,7 +92,7 @@ function Compo({Name , Email , id, render , setRender}:CompoType){
         }
     }
     return (
-        <div  className="text-center px-4 py-3 border border-black rounded-lg w-[375px] flex justify-between">
+        <div  className="text-center text-zinc-400 px-4 py-3 border border-zinc-400 hover:border-blue-800 rounded-lg w-[375px] flex justify-between">
             <div className="flex flex-col">
                 <div className="flex justify-start">{Name}</div>
                 <div className="flex justify-start">{Email}</div>

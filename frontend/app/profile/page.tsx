@@ -61,16 +61,16 @@ export default function Profile(){
     }
 
     return (
-        <div className="h-screen text-black">
+        <div className="h-screen text-white">
             <div className="h-full flex flex-col justify-center">
                 <div className="flex justify-center">
-                    <div className="flex flex-col border border-black rounded-lg px-10 py-10 mb-4">
+                    <div className="flex flex-col border border-zinc-600 rounded-lg px-10 py-10 mb-4">
                         <div className=" text-center text-2xl font-bold font-serif">Profile</div>
                         <div className="flex space-x-2 text-slate-500 my-2">
                             <label className="">Name :</label>
                             <div>{username}</div>
                         </div>
-                        <input onChange={(e)=>{setName(e.target.value)}} className="mb-8 border border-black rounded-md py-2 px-2  w-[300px]" placeholder="Enter your updated name here"/>
+                        <input onChange={(e)=>{setName(e.target.value)}} className="text-black mb-8 border border-black rounded-md py-2 px-2  w-[300px]" placeholder="Enter your updated name here"/>
 
                         <div className="flex space-x-2 text-slate-500 mb-4">
                             <label className="">Email :</label>
@@ -82,7 +82,7 @@ export default function Profile(){
                                 <label className="">Courses :</label>
                                 <div>{usercourse}</div>
                             </div>
-                            <select onChange={(e) => setCourse(e.target.value)} className="ml-2 border rounded-lg border-black">
+                            <select onChange={(e) => setCourse(e.target.value)} className="ml-2 border rounded-lg border-black text-black">
                                 <option value="">--Select--</option>
                                 <option value="Machine Learning">Machine Learning</option>
                                 <option value="Robotics">Robotics</option>
@@ -96,11 +96,11 @@ export default function Profile(){
                         <div className={`${(Admin)?" flex ":" hidden "}  flex-col`}>
                             <label className="my-2">App Password</label>
                             <a className="text-[10px] mb-2 underline text-blue-900" href="https://youtu.be/MkLX85XU5rU?si=6IR-iZLc8GntZd29" target="blank">How to get an App Password ?</a>
-                            <input onChange={(e)=>{setAppPassword(e.target.value)}} className="border border-black rounded-md py-2 px-2  w-[300px]"/>
+                            <input onChange={(e)=>{setAppPassword(e.target.value)}} className="border border-black rounded-md py-2 px-2  w-[300px] text-black"/>
                         </div>
                         <div className="mt-8 flex justify-center">
-                            <button onClick={()=> updateProfile()} className={`${Admin? "hidden" : ""} border px-4 py-2 rounded-lg border-blue-500 hover:text-blue-900 hover:border-black active:text-white`}>Update</button>
-                            <button onClick={()=> updateProfile()} className={`${Admin? "" : "hidden"} border px-4 py-2 rounded-lg border-blue-500 hover:text-blue-900 hover:border-black active:text-white`}>Request for / Update as Admin</button>
+                            <button onClick={()=> updateProfile()} className={`${Admin? "hidden" : ""} border px-4 py-2 rounded-lg hover:border-blue-500 hover:text-blue-900 border-white active:text-white`}>Update</button>
+                            <button onClick={()=> updateProfile()} className={`${Admin? "" : "hidden"} border px-4 py-2 rounded-lg hover:border-blue-500 hover:text-blue-900 border-white active:text-white`}>Request for / Update as Admin</button>
                             <button onClick={()=> DeleteProfile()} className={` border px-4 py-2 rounded-lg active:text-black hover:border-black bg-red-700 text-white ml-4`}>Delete Account</button>
                         </div>
                     </div>
