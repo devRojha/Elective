@@ -36,7 +36,7 @@ export default function ML() {
             </div>
           <div className="text-center text-2xl font-bold font-serif mb-20 flex justify-center">
             <button  onClick={()=>router.push("/")} className=" absolute left-10 max-sm:left-2 z-0">
-              <Image src={"/back.png"} height={30} width={30} alt="loading.."/>
+              <Image src={"/back.png"} height={20} width={20} alt="loading.."/>
             </button>
             {/* <div >Machine Learning</div> */}
             <div><HeadingTheme first="Machi" second="ne Lea" third="rning"/></div>

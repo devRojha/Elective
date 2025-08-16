@@ -36,7 +36,7 @@ export default function MCT() {
             </div>
           <div className="text-center text-2xl font-bold font-serif mb-20 flex justify-center">
             <button  onClick={()=>router.push("/")} className=" absolute left-10 max-sm:left-2">
-              <Image src={"/back.png"} height={30} width={30} alt="loading.."/>
+              <Image src={"/back.png"} height={20} width={20} alt="loading.."/>
             </button>
             {/* <div>Modern Control Theory</div> */}
             <div><HeadingTheme first="Modern " second="Control " third="Theory"/></div>

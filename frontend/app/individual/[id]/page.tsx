@@ -98,7 +98,7 @@ export default function Page() {
             </div>
             <div className="text-center text-2xl font-bold font-serif flex justify-center">
                 <button  onClick={()=>{router.push(`/${Course}`)}} className=" absolute left-10 max-sm:left-2">
-                    <Image src={"/back.png"} height={30} width={30} alt="loading.."/>
+                    <Image src={"/back.png"} height={20} width={20} alt="loading.."/>
                 </button>
                 <div className="px-4 mt-10 text-white">{title}</div>
                 <div className="">
@@ -118,7 +118,7 @@ export default function Page() {
 
             {(text.length > 0)?
                 <div className={`${(file.length > 0)?"mt-10":"mt-20"} flex justify-center overflow-auto`}>
-                    <div className=" px-10"> 
+                    <div className="px-10 max-sm:px-0"> 
                         <div className="max-md:w-[600px] max-sm:w-[400px] px-4">Instructions : </div>
                         <div
                             className="w-[800px] mb-10 rounded-md max-md:w-[600px] max-sm:w-[400px] shadow-md shadow-slate-600 h-[500px] p-4 overflow-y-auto"
