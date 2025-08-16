@@ -118,7 +118,7 @@ export default function Page() {
 
             {(text.length > 0)?
                 <div className={`${(file.length > 0)?"mt-10":"mt-20"} flex justify-center overflow-auto`}>
-                    <div className="bg-white px-10"> 
+                    <div className=" px-10"> 
                         <div className="max-md:w-[600px] max-sm:w-[400px] px-4">Instructions : </div>
                         <div
                             className="w-[800px] mb-10 rounded-md max-md:w-[600px] max-sm:w-[400px] shadow-md shadow-slate-600 h-[500px] p-4 overflow-y-auto"
